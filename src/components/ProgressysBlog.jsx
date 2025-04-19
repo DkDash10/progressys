@@ -1,9 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import blog1 from "../assets/img/blog1.png";
 import blog2 from "../assets/img/blog2.png";
 import blog3 from "../assets/img/blog3.png";
 import blog4 from "../assets/img/blog4.png";
-// import { ReactComponent as CustomIcon } from "../assets/icons/arrow.svg"
+
+gsap.registerPlugin(ScrollTrigger);
 
 // BLOG DATA ARRAY
 const blogData = [
@@ -40,6 +44,7 @@ const ArrowIcon = ({ direction, isActive }) => (
 
 const ProgressysBlog = () => {
   const blogContainerRef = useRef(null);
+  const sectionRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
@@ -65,8 +70,25 @@ const ProgressysBlog = () => {
     };
   }, []);
 
+  // GSAP animation for the whole section on scroll
+  useEffect(() => {
+    if (sectionRef.current) {
+      gsap.from(sectionRef.current, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        }
+      });
+    }
+  }, []);
+
   return (
-    <section className="progressysBlog">
+    <section className="progressysBlog" ref={sectionRef}>
       <div className='pb_top'>
         <span className='subtitle'>Featured Posts</span>
         <p className='pb_top-title'>Progressys Blog</p>

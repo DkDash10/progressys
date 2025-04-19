@@ -4,6 +4,7 @@ import Footer from './components/Footer'
 import GrowthEngineers from './components/GrowthEngineers'
 import Model5D from './components/Model5D'
 import Navbar from './components/Navbar'
+import OurSpecialization from './components/specialization/OurSpecialization'
 import ProblemStatement from './components/ProblemStatement'
 import ProgressysBlog from './components/ProgressysBlog'
 import WhatWeDo from './components/whatWeDo/WhatWeDo'
@@ -24,6 +25,9 @@ function App() {
           </div>
           <WhatWeDo/>
           <Model5D/>
+          <div id="ourSpecialization">
+            <OurSpecialization/>
+          </div>
           <div id="progressysBlog">
             <ProgressysBlog/>
           </div>
