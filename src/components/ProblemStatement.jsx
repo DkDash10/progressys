@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PSI from "../assets/img/ProblemStatement.png";
 import pause from "../assets/icons/pause.svg";
 import BGIT from "../assets/icons/blackGetInTouch.svg";
+import { useModal } from "../contexts/modalContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +13,8 @@ const ProblemStatement = () => {
   const textBlockRef1 = useRef(null);
   const textBlockRef2 = useRef(null);
   const textBlockRef3 = useRef(null);
+
+  const { openModal } = useModal();
 
   const lines1 = [
     "Stagnation is the Only Risk",
@@ -94,7 +97,7 @@ const ProblemStatement = () => {
 
       <div className="ps_textBlock-2">
         <p>A digital agency is a specialized firm that offers a range of services to help businesses thrive in the digital realm. With expertise in areas such as web design, digital marketing, social media management, and content creation, digital agencies play a crucial role in helping businesses establish and strengthen their online presence.</p>
-        <div className="ps_getInTouch">
+        <div className="ps_getInTouch" onClick={openModal}>
           <img src={BGIT} alt="getInTouch" />
           <p>Get in Touch</p>
         </div>
