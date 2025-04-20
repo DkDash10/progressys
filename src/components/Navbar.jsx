@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { HashLink } from 'react-router-hash-link';
 import Logo from "../assets/img/logo.png";
-import aboutus from "../assets/icons/aboutus.png";
+// import aboutus from "../assets/icons/aboutus.png";
 import GIT from "../assets/icons/getInTouch.svg";
 import { RxHamburgerMenu } from "react-icons/rx";
 import gsap from "gsap";
@@ -15,6 +15,13 @@ const Navbar = () => {
   const debounceTimeout = useRef(null);
 
   const { openModal } = useModal();
+  const handleGetInTouchClick = (e) => {
+    const clickX = e.clientX;
+    const clickY = e.clientY;
+  
+    window.modalClickPosition = { x: clickX, y: clickY }; // store globally
+    openModal("Let’s build something transformative together.");
+  };
 
   // Debounced scroll direction detector
   useEffect(() => {
@@ -76,7 +83,8 @@ const Navbar = () => {
 
       <div className="nav_links">
         <HashLink smooth to="#aboutUs" className="nav_link">
-          About Us <img src={aboutus} alt="aboutus" />
+          About Us 
+          {/* <img src={aboutus} alt="aboutus" /> */}
         </HashLink>
         <HashLink smooth to="#ourSpecialization" className="nav_link">
           Our Specialization
@@ -89,11 +97,12 @@ const Navbar = () => {
         </HashLink>
       </div>
 
-      <div className="nav_btn" onClick={openModal}>
+      <div className="nav_btn" onClick={handleGetInTouchClick}>
         <img src={GIT} alt="Get in touch" />
         <p>Get In touch</p>
       </div>
 
+      {isOpen && <div className="overlay-blur" onClick={() => setIsOpen(false)} />}
       <div className="hamburger_icon" onClick={() => setIsOpen(!isOpen)}>
         <RxHamburgerMenu size={28} />
       </div>
@@ -117,7 +126,7 @@ const Navbar = () => {
         <HashLink smooth to="#contactUs" className="nav_link" onClick={handleLinkClick}>
           Contact Us
         </HashLink>
-        <div className="nav_btn mobile_btn" onClick={openModal}>
+        <div className="nav_btn mobile_btn" onClick={handleGetInTouchClick}>
           <img src={GIT} alt="Get in touch" />
           <p>Get In touch</p>
         </div>

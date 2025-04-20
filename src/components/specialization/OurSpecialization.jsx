@@ -244,11 +244,38 @@ const OurSpecialization = () => {
   const [modalContent, setModalContent] = useState(null);
   const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
 
+  // New state to track content overflow
+  const [overflowingItems, setOverflowingItems] = useState({});
+
   // Refs for animation targets
   const descriptionRef = useRef(null);
   const accordionRefs = useRef([]);
   const modalRef = useRef(null);
   const modalOverlayRef = useRef(null);
+  const contentRefs = useRef({});
+
+  // Function to check if content is overflowing
+  const checkContentOverflow = (id) => {
+    if (contentRefs.current[id]) {
+      const contentElement = contentRefs.current[id];
+      const isOverflowing = contentElement.scrollHeight > contentElement.clientHeight;
+      
+      setOverflowingItems(prev => ({
+        ...prev,
+        [id]: isOverflowing
+      }));
+    }
+  };
+
+  // Check for overflow whenever an accordion opens
+  useEffect(() => {
+    if (openAccordion) {
+      // Small delay to ensure content is rendered
+      setTimeout(() => {
+        checkContentOverflow(openAccordion);
+      }, 300);
+    }
+  }, [openAccordion]);
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current;
@@ -405,6 +432,10 @@ const OurSpecialization = () => {
     }
   };
 
+  useEffect(() => {
+    document.body.style.overflow = showModal ? 'hidden' : 'auto';
+  }, [showModal]);
+
   return (
     <section className="ourSpecialization">
       <div className="oS_container">
@@ -457,7 +488,10 @@ const OurSpecialization = () => {
                       {item.id === "01" ? (
                         // Special content for Research & Strategy
                         <div className="research_strategy">
-                          <div className="content">
+                          <div 
+                            className="content scrollable_content" 
+                            ref={el => contentRefs.current[item.id] = el}
+                          >
                             <p className="main_content">{item.content}</p>
                             <div className="offerings_list">
                               {item.offerings.map((offering, idx) => (
@@ -470,25 +504,32 @@ const OurSpecialization = () => {
                               ))}
                             </div>
                           </div>
-                          <div className="read_more_container">
-                            <svg
-                              className="read_more_icon" 
-                              width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path d="M2.5 1.75V6.75H18.9625L14.4875 2.2625L16.25 0.5L23.75 8L16.25 15.5L14.4875 13.7375L18.9625 9.25H0V1.75H2.5Z" fill="currentColor"/>
-                            </svg>
-                            <button 
-                              onClick={(e) => handleReadMore(item, e)}
-                              className="read_more_btn"
-                            >
-                              Read More
-                            </button>
-                          </div>
+                          
+                          {/* Show Read More only if content is overflowing or always for this item */}
+                          {(overflowingItems[item.id] || true) && (
+                            <div className="read_more_container">
+                              <svg
+                                className="read_more_icon" 
+                                width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M2.5 1.75V6.75H18.9625L14.4875 2.2625L16.25 0.5L23.75 8L16.25 15.5L14.4875 13.7375L18.9625 9.25H0V1.75H2.5Z" fill="currentColor"/>
+                              </svg>
+                              <button 
+                                onClick={(e) => handleReadMore(item, e)}
+                                className="read_more_btn"
+                              >
+                                Read More
+                              </button>
+                            </div>
+                          )}
                         </div>
                       ) : (
                         // Standard content for other items
                         <div className="standard_content">
-                          <div className="content">
+                          <div 
+                            className="content scrollable_content"
+                            ref={el => contentRefs.current[item.id] = el}
+                          >
                             <p className="headline">{item.headline}</p>
                             {/* {item.tagline && <p className="tagline">{item.tagline}</p>} */}
                             
@@ -503,20 +544,23 @@ const OurSpecialization = () => {
                             </div>
                           </div>
                           
-                          <div className="read_more_container">
-                            <svg
-                              className="read_more_icon" 
-                              width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path d="M2.5 1.75V6.75H18.9625L14.4875 2.2625L16.25 0.5L23.75 8L16.25 15.5L14.4875 13.7375L18.9625 9.25H0V1.75H2.5Z" fill="currentColor"/>
-                            </svg>
-                            <button 
-                              onClick={(e) => handleReadMore(item, e)}
-                              className="read_more_btn"
-                            >
-                              Read More
-                            </button>
-                          </div>
+                          {/* Show Read More button only if content is overflowing */}
+                          {overflowingItems[item.id] && (
+                            <div className="read_more_container">
+                              <svg
+                                className="read_more_icon" 
+                                width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M2.5 1.75V6.75H18.9625L14.4875 2.2625L16.25 0.5L23.75 8L16.25 15.5L14.4875 13.7375L18.9625 9.25H0V1.75H2.5Z" fill="currentColor"/>
+                              </svg>
+                              <button 
+                                onClick={(e) => handleReadMore(item, e)}
+                                className="read_more_btn"
+                              >
+                                Read More
+                              </button>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
@@ -537,6 +581,7 @@ const OurSpecialization = () => {
         </div>
       </div>
 
+      {/* Modal component */}
       {showModal && (
         <div 
           className="modal_overlay" 
@@ -561,7 +606,7 @@ const OurSpecialization = () => {
               </div>
               
               <div className="modal_body">
-                {modalContent.id === "01" ? (
+                {modalContent && modalContent.id === "01" ? (
                   // Special content for Research & Strategy in modal
                   <div className="research_strategy_modal">
                     <p className="main_content">{modalContent.content}</p>
@@ -576,7 +621,7 @@ const OurSpecialization = () => {
                       ))}
                     </div>
                   </div>
-                ) : (
+                ) : modalContent && (
                   // Standard content for other items in modal
                   <div className="all_modal">
                     <p className="headline_modal">{modalContent.headline}</p>

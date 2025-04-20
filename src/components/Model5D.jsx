@@ -74,6 +74,13 @@ const Model5D = () => {
   const mobileBlocksRef = useRef(null);
 
   const { openModal } = useModal();
+  const handleGetInTouchClick = (e) => {
+    const clickX = e.clientX;
+    const clickY = e.clientY;
+  
+    window.modalClickPosition = { x: clickX, y: clickY }; // store globally
+    openModal("Let’s build something transformative together.");
+  };
 
   useEffect(() => {
     // Animation for the top section
@@ -156,6 +163,7 @@ const Model5D = () => {
     };
   }, []);
 
+   
   return (
     <section className="model5D">
       <div className="m5D_top" ref={topBlockRef}>
@@ -262,7 +270,7 @@ const Model5D = () => {
       
       <div className="ps_textBlock-2 m5D_bottom">
         <p><span>Growth isn't luck. It's algorithmic.</span> We merge AI's precision, humanity's intuition, and strategies that outlast trends.</p>
-        <div className="ps_getInTouch" onClick={openModal}>
+        <div className="ps_getInTouch" onClick={handleGetInTouchClick}>
           <img src={BGIT} alt="getInTouch" />
           <p>Get in Touch</p>
         </div>

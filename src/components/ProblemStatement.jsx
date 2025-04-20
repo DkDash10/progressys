@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PSI from "../assets/img/ProblemStatement.png";
-import pause from "../assets/icons/pause.svg";
+// import pause from "../assets/icons/pause.svg";
 import BGIT from "../assets/icons/blackGetInTouch.svg";
-import { useModal } from "../contexts/modalContext";
+// import { useModal } from "../contexts/modalContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,7 +14,7 @@ const ProblemStatement = () => {
   const textBlockRef2 = useRef(null);
   const textBlockRef3 = useRef(null);
 
-  const { openModal } = useModal();
+  // const { openModal } = useModal();
 
   const lines1 = [
     "Stagnation is the Only Risk",
@@ -78,10 +78,10 @@ const ProblemStatement = () => {
 
   return (
     <section className="problemStatement">
-      <div className="ps_videoBlock">
+      {/* <div className="ps_videoBlock">
         <img className="ps_video" src={PSI} alt="problestatement" />
         <img className="ps_pause" src={pause} alt="pause" />
-      </div>
+      </div> */}
 
       <div className="ps_textBlock-1">
         <div ref={textBlockRef1}>
@@ -95,13 +95,13 @@ const ProblemStatement = () => {
         </div>
       </div>
 
-      <div className="ps_textBlock-2">
+      {/* <div className="ps_textBlock-2">
         <p>A digital agency is a specialized firm that offers a range of services to help businesses thrive in the digital realm. With expertise in areas such as web design, digital marketing, social media management, and content creation, digital agencies play a crucial role in helping businesses establish and strengthen their online presence.</p>
         <div className="ps_getInTouch" onClick={openModal}>
           <img src={BGIT} alt="getInTouch" />
           <p>Get in Touch</p>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

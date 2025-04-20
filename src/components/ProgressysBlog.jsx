@@ -73,9 +73,9 @@ const ProgressysBlog = () => {
   // GSAP animation for the whole section on scroll
   useEffect(() => {
     if (sectionRef.current) {
-      gsap.from(sectionRef.current, {
-        opacity: 0,
-        y: 50,
+      gsap.to(sectionRef.current, {
+        autoAlpha: 1,  // opacity: 1 and visibility: visible
+        y: 0,
         duration: 1,
         ease: 'power2.out',
         scrollTrigger: {

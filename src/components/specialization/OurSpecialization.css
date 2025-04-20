@@ -147,6 +147,7 @@
 .content_wrapper {
   display: flex;
   gap: 1rem;
+  height: 600px;
 }
 
 
@@ -157,16 +158,17 @@
   padding: 3rem;
   border-radius: 30px;
   margin-bottom: 0;
+  /* height: 100%;  */
+  display: flex;
+  flex-direction: column;
 }
 
 
 /* Research & Strategy specific styles */
-.research_strategy{
+.research_strategy, .standard_content {
   display: flex;
-  justify-content: space-between;
-  height: 100%;
   flex-direction: column;
-  gap: 3rem;
+  height: 100%;
 }
 .research_strategy .main_content {
   font-weight: 500;
@@ -178,21 +180,19 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 320px;
-  overflow: hidden;
 }
 .offerings_list {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  max-height: 320px;
-  overflow-y: hidden;
 }
 
 .offering_title {
   font-family: "DM Sans", sans-serif;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 34px;
+  font-weight: 600;
+  color: #8088e6;
 }
 
 .offering_detail {
@@ -221,7 +221,6 @@
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
-  gap: 3rem;
 }
 .content{
   display: flex;
@@ -230,9 +229,10 @@
 }
 .offerings_title {
   font-family: "DM Sans", sans-serif;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 34px;
-  color: #444444;
+  color: #8088e6;
+  font-weight: 600;
 }
 
 .offering_name {
@@ -258,6 +258,7 @@
 .image_container {
   display: block;
   width: 60%;
+  height: 100%;
 }
 
 .content_image {
@@ -269,12 +270,17 @@
 
 /* Read more button styles */
 .read_more_container {
+  margin-top: auto;
+  padding-top: 1rem;
   text-align: left;
   display: flex;
   align-items: center;
   gap: 1rem;
   font-size: 24px;
   line-height: 24px;
+  position: relative;
+  z-index: 2;
+  background-color: #DEE1FF;
 
 }
 
@@ -303,6 +309,30 @@
   transform: translateY(-2px);
 }
 
+/* Scrollable content styles */
+.scrollable_content {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  padding-right: 5px; /* Add some padding for scrollbar */
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+/* Customize scrollbar */
+.scrollable_content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollable_content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+.scrollable_content::-webkit-scrollbar-thumb {
+  background: #8088e6;
+  border-radius: 10px;
+}
 
 /* Modal styles */
 .modal_overlay {
@@ -386,9 +416,10 @@
   gap: 0.5rem;
 }
 .offerings_title_modal {
-  font-size: 20px;
+  font-size: 22px;
   font-family: "DM Sans", sans-serif;
-  color: #444444;
+  color: #8088e6;
+  font-weight: 600;
 }
 
 .offering_name_modal {
@@ -424,9 +455,10 @@
 }
 
 .offering_title_modal {
-  font-size: 20px;
+  font-size: 22px;
   font-family: "DM Sans", sans-serif;
-  color: #444444;
+  color: #8088e6;
+  font-weight: 600;
 }
 
 .offering_detail_modal {
@@ -457,6 +489,9 @@
   }
 }
 @media (max-width:768px) {
+  .content_wrapper {
+    height: auto; /* Let it adjust on mobile */
+  }
   .description{
     font-size: 30px;
   }
@@ -476,11 +511,17 @@
   }
   .text_card {
     width: 100%;
-    margin-bottom: 1.5rem;
+    height: auto; /* Let height be determined by content on mobile */
+    min-height: 320px; /* Minimum height on mobile */
   }
   .standard_content .headline, .research_strategy .main_content{
     font-size: 24px;
     line-height: 36px;
+  }
+  .offerings_list{
+    max-height: 320px;
+    gap: 2rem;
+    overflow-y: scroll;
   }
   .offerings_title, .offering_name, .offering_desc, .offering_title, .offering_detail{
     font-size: 16px;
@@ -488,6 +529,11 @@
   }
   .read_more_btn, .read_more_icon{
     font-size: 20px;
+  }
+  .scrollable_content {
+    overflow-y: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 }
 @media (max-width:480px) {

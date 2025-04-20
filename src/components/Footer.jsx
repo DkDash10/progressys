@@ -1,6 +1,9 @@
 import React from 'react'
-import fb from "../assets/icons/fb.svg"
-import insta from "../assets/icons/insta.svg"
+// import fb from "../assets/icons/fb.svg"
+// import insta from "../assets/icons/insta.svg"
+import { FaLinkedinIn } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaYoutube } from "react-icons/fa6";
 import { Link } from 'react-router-dom'
 
 
@@ -10,21 +13,30 @@ const Footer = () => {
         <div className='footer_top'>
             <p>let`s talk</p>
             <div className='footer_top-links'>
-                <Link to=""><img src={fb} alt="facebook" /></Link>
-                <Link to=""><img src={insta} alt="instagram" /></Link> 
+                <Link to="">
+                    <FaLinkedinIn />
+                </Link>
+                <Link to="">
+                    <FaXTwitter />
+                    {/* <img src={insta} alt="instagram" /> */}
+                </Link>
+                <Link to="">
+                    <FaYoutube />
+                    {/* <img src={insta} alt="instagram" /> */}
+                </Link>
             </div>
         </div>
         <div className='footer_middle'>
             <div className='footer_middle-left'></div>
             <div className='footer_middle-center'>
                 <p>Contacts</p>
-                <div>
+                {/* <div>
                     <span>address:</span>
                     <span> &nbsp; 27 Noida, UP 10000 INDIA</span>
-                </div>
+                </div> */}
                 <div>
                     <span>email:</span>
-                    <Link to="mailto:vaibhav@mail.com"> &nbsp; vaibhav@mail.com</Link>
+                    <Link to="mailto:growth@progressys.com"> &nbsp; growth@progressys.com</Link>
                 </div>
                 <div>
                     <span>phone:</span>
