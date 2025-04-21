@@ -530,7 +530,7 @@
   .read_more_btn, .read_more_icon{
     font-size: 20px;
   }
-  .scrollable_content {
+  .standard_content .scrollable_content {
     overflow-y: visible;
     mask-image: none;
     -webkit-mask-image: none;

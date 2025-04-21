@@ -506,7 +506,7 @@ const OurSpecialization = () => {
                           </div>
                           
                           {/* Show Read More only if content is overflowing or always for this item */}
-                          {(overflowingItems[item.id] || true) && (
+                          {(item.id === "01" || overflowingItems[item.id]) && (
                             <div className="read_more_container">
                               <svg
                                 className="read_more_icon" 
