@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import sample from '../assets/video/bannerVideo.mp4'
 import bannerRect from "../assets/img/bannerRectangle.png"
 import GIT from "../assets/icons/getInTouch.svg"
@@ -12,11 +12,11 @@ gsap.registerPlugin(TextPlugin);
 const Banner = () => {
   const staticRef = useRef(null);
   const textRef = useRef(null);
-  const phrases = [
+  const phrases = useMemo(() =>[
     "Engineering Business",
     "Imagining Societies",
     "Defining Lives"
-  ];
+  ], []);
 
   useEffect(() => {
     if (!textRef.current || !staticRef.current) return;
@@ -72,7 +72,7 @@ const Banner = () => {
     return () => {
       timeline.kill();
     };
-  }, []);
+  }, [phrases]);
 
   return (
     <section className='banner'>

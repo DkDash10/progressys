@@ -197,9 +197,6 @@
   .banner {
     height: calc(100vh - 118px);
   }
-  .banner_bottom-text span {
-    font-size: 32px;
-  }
   .banner_bottom-scroll img {
     height: 48px;
   }
@@ -222,7 +219,7 @@
     height: 120px;
   }
   .banner_bottom-text span {
-    font-size: 24px;
+    font-size: 32px;
     line-height: normal;
     letter-spacing: 0px;
   }
@@ -235,7 +232,7 @@
 }
 @media (max-width: 768px) {
   .banner_bottom-text span {
-    font-size: 18px;
+    font-size: 24px;
   }
 }
 @media (max-width: 660px) {
