@@ -571,6 +571,7 @@ const OurSpecialization = () => {
                         src={item.image} 
                         alt={`${item.title} illustration`}
                         className="content_image"
+                        loading="lazy"
                       />
                     </div>
                   </div>

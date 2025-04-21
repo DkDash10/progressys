@@ -1,10 +1,8 @@
 import React from 'react'
-// import fb from "../assets/icons/fb.svg"
-// import insta from "../assets/icons/insta.svg"
 import { FaLinkedinIn } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { FaYoutube } from "react-icons/fa6";
-import { Link } from 'react-router-dom'
+import { FaFacebookF } from "react-icons/fa";
 
 
 const Footer = () => {
@@ -13,17 +11,18 @@ const Footer = () => {
         <div className='footer_top'>
             <p>let`s talk</p>
             <div className='footer_top-links'>
-                <Link to="">
+                <a href="https://www.linkedin.com/company/progressys-group/" target='_blank' rel="noopener noreferrer">
                     <FaLinkedinIn />
-                </Link>
-                <Link to="">
+                </a>
+                <a href="https://www.instagram.com/progressys_group/" target='_blank' rel="noopener noreferrer">
+                    <FaInstagram />
+                </a>
+                <a href="https://x.com/ProgressysGroup" target='_blank' rel="noopener noreferrer">
                     <FaXTwitter />
-                    {/* <img src={insta} alt="instagram" /> */}
-                </Link>
-                <Link to="">
-                    <FaYoutube />
-                    {/* <img src={insta} alt="instagram" /> */}
-                </Link>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61569821011817" target='_blank' rel="noopener noreferrer">
+                    <FaFacebookF />
+                </a>
             </div>
         </div>
         <div className='footer_middle'>
@@ -36,11 +35,11 @@ const Footer = () => {
                 </div> */}
                 <div>
                     <span>email:</span>
-                    <Link to="mailto:growth@progressys.com"> &nbsp; growth@progressys.com</Link>
+                    <a href="mailto:growth@progressys.com"> &nbsp; growth@progressys.com</a>
                 </div>
                 <div>
                     <span>phone:</span>
-                    <Link to="tel:+91 8103123456"> &nbsp; +91 8103123456</Link>
+                    <a href="tel:+91 8103123456"> &nbsp; +91 8103123456</a>
                 </div>
             </div>
             <div className='footer_middle-right'>

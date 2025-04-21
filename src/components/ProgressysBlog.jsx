@@ -104,7 +104,7 @@ const ProgressysBlog = () => {
       <div className='pb_blogs' ref={blogContainerRef}>
         {blogData.map((blog, index) => (
           <div className="pb_blog" key={index}>
-            <img src={blog.image} alt={`blog-${index}`} />
+            <img src={blog.image} alt={`blog-${index}`} loading="lazy"/>
             <div className='pb_blog-texts'>
               <p className="pb_blog-title">{blog.title}</p>
               <p className="pb_blog-desc">Excerpt: {blog.desc}</p>

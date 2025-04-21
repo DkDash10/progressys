@@ -259,7 +259,7 @@ const Model5D = () => {
                   <p className="m5D_mid-blockSub">{item.subtitle}</p>
                   <div className="m5D_mid-imgBlock">
                     <p>{item.label}</p>
-                    <img src={item.image} alt={item.label} />
+                    <img src={item.image} alt={item.label} loading="lazy"/>
                   </div>
                 </div>
               </div>
