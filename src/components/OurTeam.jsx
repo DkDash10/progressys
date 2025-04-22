@@ -49,8 +49,9 @@ const OurTeam = () => {
 
   const scroll = (direction) => {
     const el = teamContainerRef.current;
+    const scrollOffset = window.innerWidth <= 480 ? 315 : 380;
     el.scrollBy({
-      left: direction === "left" ? -380 : 380,
+      left: direction === "left" ? -scrollOffset : scrollOffset,
       behavior: "smooth",
     });
   };
