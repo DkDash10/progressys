@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { HashLink } from 'react-router-hash-link';
-import Logo from "../assets/img/logo.png";
+import Logo from "../assets/img/logo2.png";
 // import aboutus from "../assets/icons/aboutus.png";
 import GIT from "../assets/icons/getInTouch.svg";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -78,7 +78,7 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${hideNav ? "hide-navbar" : ""}`}>
       <HashLink to="#">
-        <img src={Logo} alt="Logo" />
+        <img src={Logo} alt="Logo" className="nav_logo"/>
       </HashLink>
 
       <div className="nav_links">

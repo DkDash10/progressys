@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import sample from '../assets/video/bannerVideo.mp4'
-import bannerRect from "../assets/img/bannerRectangle.png"
+// import bannerRect from "../assets/img/bannerRectangle.png"
 import GIT from "../assets/icons/getInTouch.svg"
 import gsap from 'gsap'
 import { TextPlugin } from "gsap/TextPlugin"
@@ -80,9 +80,9 @@ const Banner = () => {
         <source src={sample} type='video/mp4' />
       </video>
       <div className='banner_top'>
-        <img src={bannerRect} alt="bannerRectangle" />
+        {/* <img src={bannerRect} alt="bannerRectangle" /> */}
         <div className='banner_top-block'>
-          <p>We are Progressys Group</p>
+          <p>We are <br/>Progressys Group</p>
           <img src={logo1} alt="logo" />
         </div>
       </div>
