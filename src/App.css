@@ -236,6 +236,9 @@
   }
 }
 @media (max-width: 660px) {
+  .banner {
+    height: 70vh;
+  }
   .banner_top p {
     font-size: 32px;
   }
