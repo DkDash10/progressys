@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useModal } from "../../contexts/modalContext";
 import gsap from 'gsap';
 import './ContactFormModal.css';
+import { HiXMark } from "react-icons/hi2";
 
 function ContactFormModal() {
   const { isModalOpen, closeModal } = useModal();
@@ -119,9 +120,9 @@ function ContactFormModal() {
     <div className="modal-overlay" ref={overlayRef} onClick={handleOverlayClick}>
       <div className="modal-content" ref={modalRef}>
         <div className="modal-header">
-          <h2 className="modal-title">Let's Re-Engineer Your Legacy.</h2>
+          <p className="modal-title">Let's Re-Engineer Your Legacy.</p>
           <button onClick={closeAnimateModal} className="close-btn">
-            <span>×</span>
+            <HiXMark />
           </button>
         </div>
 

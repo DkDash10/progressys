@@ -166,113 +166,115 @@ const Model5D = () => {
    
   return (
     <section className="model5D">
-      <div className="m5D_top" ref={topBlockRef}>
-        <span className="subtitle">5D Model</span>
-        <p className="m5D_top-title">The Progressys Edge</p>
-        <div className="m5D_top-texts">
-          <p>
-            <span>Where others adapt, we redesign:</span> Turning disruption
-            into dominance, stagnation into systems, and risks into
-            revolutions—for businesses, societies, and the lives they power.
+      <div className="m5D_container">
+        <div className="m5D_top" ref={topBlockRef}>
+          <span className="subtitle">5D Model</span>
+          <p className="m5D_top-title">The Progressys Edge</p>
+          <div className="m5D_top-texts">
+            <p>
+              <span>Where others adapt, we redesign:</span> Turning disruption
+              into dominance, stagnation into systems, and risks into
+              revolutions—for businesses, societies, and the lives they power.
+            </p>
+            <div className="banner_bottom-scroll m5D_top-scroll">
+              <img src={GIT} alt="Scroll" />
+              <p>Scroll Down</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="m5D_mid">
+          <p className="m5D_mid-title">
+            5D <br />
+            Model
           </p>
-          <div className="banner_bottom-scroll m5D_top-scroll">
-            <img src={GIT} alt="Scroll" />
-            <p>Scroll Down</p>
-          </div>
-        </div>
-      </div>
-      
-      <div className="m5D_mid">
-        <p className="m5D_mid-title">
-          5D <br />
-          Model
-        </p>
-        <p className="m5D_mid-subtitle">Our Growth Algorithm™</p>
-        <div className="m5D_mid-main">
-          <img className="m5D_mid-img1" src={Ellipse} alt="Ellipse" />
-          <img className="m5D_mid-img2" src={Polygon} alt="Polygon" />
-          
-          {/* Desktop Layout */}
-          <div className="m5D_mid-blocks">
-            <div className="m5D_mid-block m5D_mid-d1" ref={d1Ref}>
-              <p className="m5D_mid-blockTitle">Diagnose:</p>
-              <p className="m5D_mid-blockSub">
-                Uncover hidden growth barriers.
-              </p>
-              <div className="m5D_mid-imgBlock">
-                <p>D1</p>
-                <img src={d1} alt="d1" />
-              </div>
-            </div>
-            <div className="m5D_mid-sep">
-              <div className="m5D_mid-blockLeft">
-                <div className="m5D_mid-block m5D_mid-d3" ref={d3Ref}>
-                  <p className="m5D_mid-blockTitle">Deploy:</p>
-                  <p className="m5D_mid-blockSub">
-                    Integrate tech, culture, and strategy.
-                  </p>
-                  <div className="m5D_mid-imgBlock">
-                    <p>D3</p>
-                    <img src={d3} alt="d3" />
-                  </div>
-                </div>
-                <div className="m5D_mid-block m5D_mid-d5" ref={d5Ref}>
-                  <p className="m5D_mid-blockTitle">Dominate:</p>
-                  <p className="m5D_mid-blockSub">
-                    Own your industry's future.
-                  </p>
-                  <div className="m5D_mid-imgBlock">
-                    <p>D5</p>
-                    <img src={d5} alt="d5" />
-                  </div>
+          <p className="m5D_mid-subtitle">Our Growth Algorithm™</p>
+          <div className="m5D_mid-main">
+            <img className="m5D_mid-img1" src={Ellipse} alt="Ellipse" />
+            <img className="m5D_mid-img2" src={Polygon} alt="Polygon" />
+            
+            {/* Desktop Layout */}
+            <div className="m5D_mid-blocks">
+              <div className="m5D_mid-block m5D_mid-d1" ref={d1Ref}>
+                <p className="m5D_mid-blockTitle">Diagnose:</p>
+                <p className="m5D_mid-blockSub">
+                  Uncover hidden growth barriers.
+                </p>
+                <div className="m5D_mid-imgBlock">
+                  <p>D1</p>
+                  <img src={d1} alt="d1" />
                 </div>
               </div>
-              <div className="m5D_mid-blockRight">
-                <div className="m5D_mid-block m5D_mid-d2" ref={d2Ref}>
-                  <p className="m5D_mid-blockTitle">Design:</p>
-                  <p className="m5D_mid-blockSub">Build your custom engine.</p>
-                  <div className="m5D_mid-imgBlock">
-                    <p>D2</p>
-                    <img src={d2} alt="d2" />
+              <div className="m5D_mid-sep">
+                <div className="m5D_mid-blockLeft">
+                  <div className="m5D_mid-block m5D_mid-d3" ref={d3Ref}>
+                    <p className="m5D_mid-blockTitle">Deploy:</p>
+                    <p className="m5D_mid-blockSub">
+                      Integrate tech, culture, and strategy.
+                    </p>
+                    <div className="m5D_mid-imgBlock">
+                      <p>D3</p>
+                      <img src={d3} alt="d3" />
+                    </div>
+                  </div>
+                  <div className="m5D_mid-block m5D_mid-d5" ref={d5Ref}>
+                    <p className="m5D_mid-blockTitle">Dominate:</p>
+                    <p className="m5D_mid-blockSub">
+                      Own your industry's future.
+                    </p>
+                    <div className="m5D_mid-imgBlock">
+                      <p>D5</p>
+                      <img src={d5} alt="d5" />
+                    </div>
                   </div>
                 </div>
-                <div className="m5D_mid-block m5D_mid-d4" ref={d4Ref}>
-                  <p className="m5D_mid-blockTitle">Drive:</p>
-                  <p className="m5D_mid-blockSub">
-                    Optimize with AI-powered agility.
-                  </p>
-                  <div className="m5D_mid-imgBlock">
-                    <p>D4</p>
-                    <img src={d4} alt="d4" />
+                <div className="m5D_mid-blockRight">
+                  <div className="m5D_mid-block m5D_mid-d2" ref={d2Ref}>
+                    <p className="m5D_mid-blockTitle">Design:</p>
+                    <p className="m5D_mid-blockSub">Build your custom engine.</p>
+                    <div className="m5D_mid-imgBlock">
+                      <p>D2</p>
+                      <img src={d2} alt="d2" />
+                    </div>
+                  </div>
+                  <div className="m5D_mid-block m5D_mid-d4" ref={d4Ref}>
+                    <p className="m5D_mid-blockTitle">Drive:</p>
+                    <p className="m5D_mid-blockSub">
+                      Optimize with AI-powered agility.
+                    </p>
+                    <div className="m5D_mid-imgBlock">
+                      <p>D4</p>
+                      <img src={d4} alt="d4" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          
-          {/* Mobile Layout */}
-          <div className="m5D_mid-blocks-mobile" ref={mobileBlocksRef}>
-            {modelData.map((item) => (
-              <div key={item.id} className={`m5D_mid-block ${item.className}`}>
-                <div className="m5D_content">
-                  <p className="m5D_mid-blockTitle">{item.title}</p>
-                  <p className="m5D_mid-blockSub">{item.subtitle}</p>
-                  <div className="m5D_mid-imgBlock">
-                    <p>{item.label}</p>
-                    <img src={item.image} alt={item.label} loading="lazy"/>
+            
+            {/* Mobile Layout */}
+            <div className="m5D_mid-blocks-mobile" ref={mobileBlocksRef}>
+              {modelData.map((item) => (
+                <div key={item.id} className={`m5D_mid-block ${item.className}`}>
+                  <div className="m5D_content">
+                    <p className="m5D_mid-blockTitle">{item.title}</p>
+                    <p className="m5D_mid-blockSub">{item.subtitle}</p>
+                    <div className="m5D_mid-imgBlock">
+                      <p>{item.label}</p>
+                      <img src={item.image} alt={item.label} loading="lazy"/>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div className="ps_textBlock-2 m5D_bottom">
-        <p><span>Growth isn't luck. It's algorithmic.</span> We merge AI's precision, humanity's intuition, and strategies that outlast trends.</p>
-        <div className="ps_getInTouch" onClick={handleGetInTouchClick}>
-          <img src={BGIT} alt="getInTouch" />
-          <p>Get in Touch</p>
+        
+        <div className="ps_textBlock-2 m5D_bottom">
+          <p><span>Growth isn't luck. It's algorithmic.</span> We merge AI's precision, humanity's intuition, and strategies that outlast trends.</p>
+          <div className="ps_getInTouch" onClick={handleGetInTouchClick}>
+            <img src={BGIT} alt="getInTouch" />
+            <p>Get in Touch</p>
+          </div>
         </div>
       </div>
     </section>

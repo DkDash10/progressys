@@ -3,32 +3,25 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PSI from "../assets/img/ProblemStatement.png";
 // import pause from "../assets/icons/pause.svg";
-import BGIT from "../assets/icons/blackGetInTouch.svg";
-// import { useModal } from "../contexts/modalContext";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ProblemStatement = () => {
-
   const textBlockRef1 = useRef(null);
   const textBlockRef2 = useRef(null);
   const textBlockRef3 = useRef(null);
 
-  // const { openModal } = useModal();
+  const lines1 = ["Stagnation is the Only Risk", "You Can’t Afford."];
 
-  const lines1 = [
-    "Stagnation is the Only Risk",
-    "You Can’t Afford."
-  ];
-  
   const lines2 = [
     "Legacy systems crumble.",
     "Markets shift overnight.",
-    "Talent gaps explode."
+    "Talent gaps explode.",
   ];
-  
-  const lines3 = [ 
-    "In a fractured world, standing still isn’t an option—it’s extinction."
+
+  const lines3 = [
+    "In a fractured world, standing still isn’t an option—it’s extinction.",
   ];
 
   const renderAnimatedLines = (lines, className) => {
@@ -47,14 +40,13 @@ const ProblemStatement = () => {
     );
   };
 
-  
   useEffect(() => {
     const animateWords = (ref, delay = 0) => {
       const words = ref.current.querySelectorAll("span");
-  
+
       gsap.fromTo(
         words,
-        { opacity: 0, y: 20 },
+        { opacity: 0.1, y: 10 },
         {
           opacity: 1,
           y: 0,
@@ -64,44 +56,38 @@ const ProblemStatement = () => {
           delay,
           scrollTrigger: {
             trigger: ref.current,
-            start: "top 85%",
+            start: "top 65%",
             toggleActions: "play none none reverse",
           },
         }
       );
     };
-  
-    animateWords(textBlockRef1);        // no delay
-    animateWords(textBlockRef2, 0.2);   // slight delay
-    animateWords(textBlockRef3, 0.4);   // more delay
+
+    animateWords(textBlockRef1); // no delay
+    animateWords(textBlockRef2, 0.2); // slight delay
+    animateWords(textBlockRef3, 0.4); // more delay
   }, []);
 
   return (
     <section className="problemStatement">
-      {/* <div className="ps_videoBlock">
+      <div className="pS_container">
+        {/* <div className="ps_videoBlock">
         <img className="ps_video" src={PSI} alt="problestatement" />
         <img className="ps_pause" src={pause} alt="pause" />
       </div> */}
 
-      <div className="ps_textBlock-1">
-        <div ref={textBlockRef1}>
-          {renderAnimatedLines(lines1, "ps_text-1")}
-        </div>
-        <div ref={textBlockRef2}>
-          {renderAnimatedLines(lines2, "ps_text-2")}
-        </div>
-        <div ref={textBlockRef3}>
-          {renderAnimatedLines(lines3, "ps_text-3")}
+        <div className="ps_textBlock-1">
+          <div ref={textBlockRef1}>
+            {renderAnimatedLines(lines1, "ps_text-1")}
+          </div>
+          <div ref={textBlockRef2}>
+            {renderAnimatedLines(lines2, "ps_text-2")}
+          </div>
+          <div ref={textBlockRef3}>
+            {renderAnimatedLines(lines3, "ps_text-3")}
+          </div>
         </div>
       </div>
-
-      {/* <div className="ps_textBlock-2">
-        <p>A digital agency is a specialized firm that offers a range of services to help businesses thrive in the digital realm. With expertise in areas such as web design, digital marketing, social media management, and content creation, digital agencies play a crucial role in helping businesses establish and strengthen their online presence.</p>
-        <div className="ps_getInTouch" onClick={openModal}>
-          <img src={BGIT} alt="getInTouch" />
-          <p>Get in Touch</p>
-        </div>
-      </div> */}
     </section>
   );
 };

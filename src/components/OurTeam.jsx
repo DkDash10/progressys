@@ -1,5 +1,9 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
 import BnC from "../assets/img/brandAndCulture.png";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ArrowIcon = ({ direction, isActive }) => (
   <svg
@@ -18,6 +22,7 @@ const ArrowIcon = ({ direction, isActive }) => (
 );
 
 const OurTeam = () => {
+  const titleRef = useRef(null);
   const teamContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -38,7 +43,7 @@ const OurTeam = () => {
     { name: "Dakota Brown", designation: "Creative Director" },
     { name: "Parker Williams", designation: "Data Analyst" },
     { name: "Reese Garcia", designation: "Copywriter" },
-    { name: "Sidney Taylor", designation: "Social Media Manager" }
+    { name: "Sidney Taylor", designation: "Social Media Manager" },
   ];
 
   const checkScroll = () => {
@@ -67,13 +72,55 @@ const OurTeam = () => {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 660px)");
+    const ctx = gsap.context(() => {
+      // Animate titleRef to bottom of container
+      if (mediaQuery.matches && titleRef.current) {
+        const container = titleRef.current.parentNode;
+  
+        gsap.to(titleRef.current, {
+          scrollTrigger: {
+            trigger: container,
+            start: "top 50%",
+            end: "top 30%",
+            scrub: true,
+          },
+          y: () => container.clientHeight - titleRef.current.clientHeight,
+          ease: "none",
+        });
+      }
+  
+      // Animate cards with "fall" effect
+      const cards = gsap.utils.toArray(".oT_card");
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: -50 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".oT_cards",
+            start: "top 60%",
+            once: true, // animate only once
+          },
+        }
+      );
+    });
+  
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section className="ourTeam">
       <div className="oT_top">
         <span className="subtitle">Our Team</span>
         <div className="oT_top-texts">
-          <p className="oT_texts-title">
-            Meet our digital skilled professional team
+          <p className="oT_texts-title" ref={titleRef}>
+            Our Growth Engineers
           </p>
           <p className="oT_texts-desc">
             Digital agencies are at the forefront of the digital landscape,
@@ -85,13 +132,13 @@ const OurTeam = () => {
       <div className="oT_cards" ref={teamContainerRef}>
         {teamMembers.map((member, index) => (
           <div className="oT_card" key={index}>
-            <img src={BnC} alt={`${member.name} profile`} loading="lazy"/>
+            <img src={BnC} alt={`${member.name} profile`} loading="lazy" />
             <div className="oT_card-top">
               <p>{member.name}</p>
             </div>
             <div className="oT_card-bottom">
               <span>({member.designation})</span>
-              <svg
+              {/* <svg
                 className="read_more_icon"
                 width="24"
                 height="16"
@@ -103,7 +150,7 @@ const OurTeam = () => {
                   d="M2.5 1.75V6.75H18.9625L14.4875 2.2625L16.25 0.5L23.75 8L16.25 15.5L14.4875 13.7375L18.9625 9.25H0V1.75H2.5Z"
                   fill="currentColor"
                 />
-              </svg>
+              </svg> */}
             </div>
           </div>
         ))}

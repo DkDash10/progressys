@@ -9,6 +9,8 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  max-width: 1500px;
+  margin: auto;
 }
 
 /* Top section styles */
@@ -23,7 +25,6 @@
     font-size: 48px;
     line-height: 63.98px;
     letter-spacing: -0.98px;
-    color: #565656;
     white-space: normal;
     width: 60%;
 }
@@ -386,14 +387,15 @@
 .modal_close {
   background: none;
   border: none;
+  font-size: 2.5rem !important;
   cursor: pointer;
-  padding: 0;
-}
-
-.close_icon {
-  width: 2rem;
-  height: 2rem;
+  font-weight: 200;
+  transition: all 0.3s ease-in-out;
+  transform: translateY(6px);
   color: #999;
+}
+.modal_close:hover{
+  color: #181818;
 }
 
 /* Modal content styles */

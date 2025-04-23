@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useRef, useState, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import blog1 from "../assets/img/blog1.png";
 import blog2 from "../assets/img/blog2.png";
@@ -35,10 +35,17 @@ const blogData = [
 
 const ArrowIcon = ({ direction, isActive }) => (
   <svg
-    className={`arrow-icon ${direction} ${isActive ? 'active' : 'inactive'}`}
-    width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"
+    className={`arrow-icon ${direction} ${isActive ? "active" : "inactive"}`}
+    width="38"
+    height="38"
+    viewBox="0 0 38 38"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M25.1231 37.7298V32.7447L8.91268 32.7271L37.4975 4.14226L33.9619 0.60673L5.37715 29.1915L5.37715 12.9634L0.37437 12.9811V37.7298H25.1231Z" fill="currentColor"/>
+    <path
+      d="M25.1231 37.7298V32.7447L8.91268 32.7271L37.4975 4.14226L33.9619 0.60673L5.37715 29.1915L5.37715 12.9634L0.37437 12.9811V37.7298H25.1231Z"
+      fill="currentColor"
+    />
   </svg>
 );
 
@@ -56,61 +63,87 @@ const ProgressysBlog = () => {
 
   const scroll = (direction) => {
     const el = blogContainerRef.current;
-    el.scrollBy({ left: direction === 'left' ? -400 : 400, behavior: 'smooth' });
+    el.scrollBy({
+      left: direction === "left" ? -400 : 400,
+      behavior: "smooth",
+    });
   };
 
   useEffect(() => {
     const el = blogContainerRef.current;
     checkScroll();
-    el.addEventListener('scroll', checkScroll);
-    window.addEventListener('resize', checkScroll);
+    el.addEventListener("scroll", checkScroll);
+    window.addEventListener("resize", checkScroll);
     return () => {
-      el.removeEventListener('scroll', checkScroll);
-      window.removeEventListener('resize', checkScroll);
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
     };
   }, []);
 
-  // GSAP animation for the whole section on scroll
   useEffect(() => {
-    if (sectionRef.current) {
-      gsap.to(sectionRef.current, {
-        autoAlpha: 1,  // opacity: 1 and visibility: visible
-        y: 0,
+    const mediaQuery = window.matchMedia("(min-width: 660px)");
+    const ctx = gsap.context(() => {
+      // Animate the whole section (slide from top + fade in)
+      gsap.from(".pb_container", {
+        y: 100,
+        opacity: 0,
         duration: 1,
-        ease: 'power2.out',
+        ease: "power2.out",
         scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        }
+          trigger: ".pb_container",
+          start: "top 70%",
+          toggleActions: "play none none reverse",
+        },
       });
-    }
+
+      // Animate each blog card individually on scroll with stagger
+      if (mediaQuery.matches) {
+        gsap.utils.toArray(".pb_blog").forEach((el, i) => {
+          gsap.from(el, {
+            opacity: 0,
+            y: 50,
+            duration: 0.6,
+            delay: i * 0.25,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        });
+      }
+    });
+
+    return () => ctx.revert();
   }, []);
 
   return (
     <section className="progressysBlog" ref={sectionRef}>
-      <div className='pb_top'>
-        <span className='subtitle'>Featured Posts</span>
-        <p className='pb_top-title'>Progressys Blog</p>
-        <div className='pb_top-btns'>
-          <button className='pb_top-btn' onClick={() => scroll('left')}>
-            <ArrowIcon direction="left" isActive={canScrollLeft} />
-          </button>
-          <button className='pb_top-btn' onClick={() => scroll('right')}>
-            <ArrowIcon direction="right" isActive={canScrollRight} />
-          </button>
-        </div>
-      </div>
-      <div className='pb_blogs' ref={blogContainerRef}>
-        {blogData.map((blog, index) => (
-          <div className="pb_blog" key={index}>
-            <img src={blog.image} alt={`blog-${index}`} loading="lazy"/>
-            <div className='pb_blog-texts'>
-              <p className="pb_blog-title">{blog.title}</p>
-              <p className="pb_blog-desc">Excerpt: {blog.desc}</p>
-            </div>
+      <div className="pb_container">
+        <div className="pb_top">
+          <span className="subtitle">Featured Posts</span>
+          <p className="pb_top-title">Progressys Blog</p>
+          <div className="pb_top-btns">
+            <button className="pb_top-btn" onClick={() => scroll("left")}>
+              <ArrowIcon direction="left" isActive={canScrollLeft} />
+            </button>
+            <button className="pb_top-btn" onClick={() => scroll("right")}>
+              <ArrowIcon direction="right" isActive={canScrollRight} />
+            </button>
           </div>
-        ))}
+        </div>
+        <div className="pb_blogs" ref={blogContainerRef}>
+          {blogData.map((blog, index) => (
+            <div className="pb_blog" key={index}>
+              <img src={blog.image} alt={`blog-${index}`} />
+              <div className="pb_blog-texts">
+                <p className="pb_blog-title">{blog.title}</p>
+                <p className="pb_blog-desc">Excerpt: {blog.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

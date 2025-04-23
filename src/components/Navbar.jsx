@@ -77,58 +77,60 @@ const Navbar = () => {
 
   return (
     <nav className={`navbar ${hideNav ? "hide-navbar" : ""}`}>
-      <HashLink to="#">
-        <img src={Logo} alt="Logo" className="nav_logo"/>
-      </HashLink>
+      <div className="nav_container">
+        <HashLink to="#">
+          <img src={Logo} alt="Logo" className="nav_logo"/>
+        </HashLink>
 
-      <div className="nav_links">
-        <HashLink smooth to="#aboutUs" className="nav_link">
-          About Us 
-          {/* <img src={aboutus} alt="aboutus" /> */}
-        </HashLink>
-        <HashLink smooth to="#ourSpecialization" className="nav_link">
-          Our Specialization
-        </HashLink>
-        <HashLink smooth to="#progressysBlog" className="nav_link">
-          Progressys Blog
-        </HashLink>
-        <HashLink smooth to="#contactUs" className="nav_link">
-          Contact Us
-        </HashLink>
-      </div>
+        <div className="nav_links">
+          <HashLink smooth to="#aboutUs" className="nav_link">
+            About Us 
+            {/* <img src={aboutus} alt="aboutus" /> */}
+          </HashLink>
+          <HashLink smooth to="#ourSpecialization" className="nav_link">
+            Our Specialization
+          </HashLink>
+          <HashLink smooth to="#progressysBlog" className="nav_link">
+            Progressys Blog
+          </HashLink>
+          <HashLink smooth to="#contactUs" className="nav_link">
+            Contact Us
+          </HashLink>
+        </div>
 
-      <div className="nav_btn" onClick={handleGetInTouchClick}>
-        <img src={GIT} alt="Get in touch" />
-        <p>Get In touch</p>
-      </div>
-
-      {isOpen && <div className="overlay-blur" onClick={() => setIsOpen(false)} />}
-      <div className="hamburger_icon" onClick={() => setIsOpen(!isOpen)}>
-        <RxHamburgerMenu size={28} />
-      </div>
-
-      <div ref={menuRef} className="mobile_nav_links">
-        <HashLink smooth to="#aboutUs" className="nav_link" onClick={handleLinkClick}>
-          About Us
-        </HashLink>
-        <HashLink smooth to="#ourSpecialization"
-          className="nav_link"
-          onClick={handleLinkClick}
-        >
-          Our Specialization
-        </HashLink>
-        <HashLink smooth to="#progressysBlog"
-          className="nav_link"
-          onClick={handleLinkClick}
-        >
-          Progressys Blog
-        </HashLink>
-        <HashLink smooth to="#contactUs" className="nav_link" onClick={handleLinkClick}>
-          Contact Us
-        </HashLink>
-        <div className="nav_btn mobile_btn" onClick={handleGetInTouchClick}>
+        <div className="nav_btn" onClick={handleGetInTouchClick}>
           <img src={GIT} alt="Get in touch" />
           <p>Get In touch</p>
+        </div>
+
+        {isOpen && <div className="overlay-blur" onClick={() => setIsOpen(false)} />}
+        <div className="hamburger_icon" onClick={() => setIsOpen(!isOpen)}>
+          <RxHamburgerMenu size={28} />
+        </div>
+
+        <div ref={menuRef} className="mobile_nav_links">
+          <HashLink smooth to="#aboutUs" className="nav_link" onClick={handleLinkClick}>
+            About Us
+          </HashLink>
+          <HashLink smooth to="#ourSpecialization"
+            className="nav_link"
+            onClick={handleLinkClick}
+          >
+            Our Specialization
+          </HashLink>
+          <HashLink smooth to="#progressysBlog"
+            className="nav_link"
+            onClick={handleLinkClick}
+          >
+            Progressys Blog
+          </HashLink>
+          <HashLink smooth to="#contactUs" className="nav_link" onClick={handleLinkClick}>
+            Contact Us
+          </HashLink>
+          <div className="nav_btn mobile_btn" onClick={handleGetInTouchClick}>
+            <img src={GIT} alt="Get in touch" />
+            <p>Get In touch</p>
+          </div>
         </div>
       </div>
     </nav>

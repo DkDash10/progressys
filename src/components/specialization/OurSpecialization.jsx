@@ -4,6 +4,7 @@ import BnC from "../../assets/img/brandAndCulture.png"
 import { GoDotFill } from "react-icons/go";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { HiXMark } from "react-icons/hi2";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -306,12 +307,12 @@ const OurSpecialization = () => {
         opacity: 1,
         y: 0,
         stagger: 0.05,
-        duration: 0.8,
+        duration: 1.8,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: descriptionElement,
-          start: 'top 80%',
-          end: 'bottom 50%',
+          start: 'top 60%',
+          end: 'bottom 0%',
           toggleActions: 'play none none reverse',
         },
       });
@@ -600,9 +601,7 @@ const OurSpecialization = () => {
                   onClick={closeModal}
                   className="modal_close"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="close_icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  <HiXMark />
                 </button>
               </div>
               

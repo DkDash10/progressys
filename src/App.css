@@ -1,9 +1,6 @@
 /* Navbar CSS */
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 1rem;
   transition: transform 0.3s ease, opacity 0.3s ease;
   position: fixed;
@@ -13,6 +10,13 @@
   z-index: 999;
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.nav_container{
+  max-width: 1500px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .hide-navbar {
@@ -30,6 +34,26 @@
 }
 .nav_link {
   font-weight: 600;
+  position: relative; 
+  display: inline-block; 
+  padding-bottom: 3px;
+}
+.nav_link::after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  border-radius: 5px;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #8088e6;
+  transform-origin: bottom right;
+  transition: transform 0.5s ease-out;
+}
+.nav_link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 .nav_link:hover,
 .nav_btn p:hover {
@@ -120,10 +144,11 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  justify-content: space-between;
-  height: 100vh;
+  /* height: 80vh; */
+  gap: 2rem;
   padding: 1rem;
-  /* height: calc(100vh - 118px); */
+  height: calc(100vh - 118px);
+  justify-content: center;
 }
 .banner_video {
   height: 100%;
@@ -144,12 +169,13 @@
   align-items: center;
   padding-top: 3rem;
   position: relative;
+  justify-content: center;
 }
 .banner_top p {
   font-weight: 500;
-  font-size: 64px;
-  line-height: 84px;
-  letter-spacing: -2.2px;
+  font-size: 32px;
+  line-height: 44px;
+  letter-spacing: -1.2px;
   text-align: center;
 }
 .banner_top>img {
@@ -181,12 +207,12 @@
   align-items: center;
 }
 .banner_bottom-text span {
-  color: #676767;
-  font-size: 44px;
+  font-size: 48px;
   line-height: 84px;
   letter-spacing: -2.2px;
   opacity: 0;
   min-height: 40px;
+  font-weight: 500;
 }
 .banner_bottom-scroll {
   display: flex;
@@ -200,19 +226,12 @@
   font-size: 24px;
   line-height: 32px;
 }
-@media (max-width: 1440px) {
-  .banner {
-    height: calc(100vh - 118px);
-  }
-  .banner_bottom-scroll img {
-    height: 48px;
-  }
-  .banner_bottom-scroll p {
-    font-size: 20px;
-  }
-}
 @media (max-width: 1024px) {
+  .banner{
+    height: 70vh;
+  }
   .banner_top {
+    height: 100%;
     padding-top: 5rem;
   }
   .banner_top p {
@@ -226,16 +245,18 @@
     width: 120px;
     height: 120px;
   }
+  .banner_bottom{
+    justify-content: space-between;
+    height: 100%;
+  }
   .banner_bottom-text span {
-    font-size: 32px;
-    line-height: normal;
-    letter-spacing: 0px;
+    letter-spacing: -1px;
   }
   .banner_bottom-scroll img {
     height: 32px;
   }
   .banner_bottom-scroll p {
-    font-size: 18px;
+    font-size: 22px;
   }
 }
 @media (max-width: 768px) {
@@ -275,12 +296,15 @@
 /* Problem Statement CSS  */
 
 .problemStatement {
+  padding: 3rem;
+}
+.pS_container{
   display: flex;
   flex-direction: column;
-  padding: 3rem;
   gap: 3rem;
+  margin: auto;
+  max-width: 1500px;
 }
-
 .ps_videoBlock {
   position: relative;
   display: flex;
@@ -434,22 +458,66 @@
 
 .growthEngineers {
   padding: 3rem;
+}
+.ge_container{
+  max-width: 1175px;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 6rem;
+}
+.ge_top{
+  display: flex;
 }
 .ge_title {
-  padding: 0 5rem;
+  flex: 1;
   font-size: 24px;
   line-height: 36px;
   letter-spacing: -0.48px;
   font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  height: fit-content;
+}
+.ge_textBlock{
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 3rem;
+}
+.ge_textBlock p{
+  color: #444444;
+  font-family: "DM Sans", sans-serif;
+  font-size: 20px;
+  line-height: 34px;
+}
+.ge_getInTouch {
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+.ge_getInTouch:hover {
+  transform: translateY(-2px);
+}
+.ge_getInTouch p{
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 600;
+  color: #8088e6;
+  letter-spacing: -0.46px;
+  transition: color 0.3s ease-in-out;
+}
+.ge_getInTouch:hover p {
+  color: #181818;
 }
 .ge_cards {
   display: flex;
-  padding: 0 5rem;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1rem;
 }
 .ge_card {
   position: relative;
@@ -536,9 +604,19 @@
   }
 }
 @media (max-width: 660px) {
+  .growthEngineers{
+    padding: 2rem 1rem;
+  }
+  .ge_container{
+    gap: 4rem;
+  }
   .ge_cards {
     flex-direction: column;
     align-items: center;
+  }
+  .ge_top{
+    flex-direction: column;
+    gap: 2rem;
   }
 }
 @media (max-width: 480px) {
@@ -558,7 +636,7 @@
   color: #fff;
   overflow: hidden;
   padding: 60px 0;
-  margin: 0 1rem 2rem;
+  margin: 2rem 1rem;
   border-radius: 30px;
 }
 
@@ -699,7 +777,12 @@ canvas {
   padding: 3rem 0;
   overflow-x: hidden; /* Prevent horizontal scroll during animations */
 }
-
+.m5D_container{
+  display: flex;
+  flex-direction: column;
+  max-width: 1500px;
+  margin: auto;
+}
 .m5D_top {
   display: flex;
   flex-direction: column;
@@ -799,6 +882,7 @@ canvas {
   font-size: 40px;
   line-height: 32px;
   letter-spacing: -0.4px;
+  margin-bottom: 1rem;
 }
 
 .m5D_mid-blockSub {
@@ -845,14 +929,14 @@ canvas {
 .m5D_mid-blockLeft {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 3rem;
   padding-top: 20rem;
 }
 
 .m5D_mid-blockRight {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 3rem;
   padding-top: 2rem;
 }
 
@@ -1030,16 +1114,25 @@ canvas {
 }
 .oT_top{
   padding: 3rem 8rem 2rem 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  max-width: 1500px;
+  margin: auto;
+  gap: 2rem;
 }
 .oT_top-texts{
   display: flex;
   gap: 3rem;
-  align-items: center;
 }
 .oT_texts-title{
-  font-size: 48px;
-  font-weight: 500;
+  font-weight: 600;
   flex: 1;
+  font-size: 48px;
+  line-height: 36px;
+  letter-spacing: -0.48px;
+  height: fit-content;
+  transition: all 0.3 ease-in-out;
 }
 .oT_texts-desc{
   flex: 1;
@@ -1054,10 +1147,12 @@ canvas {
   overflow-x: auto;
   scroll-behavior: smooth;
   scrollbar-width: none;
-  padding: 2rem 0rem 1rem 10rem;
+  padding: 2rem 8rem 1rem 10rem;
+  max-width: 1500px;
+  margin: auto;
 }
 .oT_card{
-  background-color: #c9c9c9;
+  background-color: #fff;
   padding: 1.5rem;
   border-radius: 30px;
   min-width: 330px;
@@ -1098,6 +1193,9 @@ canvas {
   padding: 2rem 0;
 }
 @media (max-width: 1400px) {
+  .ourTeam{
+    padding: 2rem;
+  }
   .oT_top{
     padding: 3rem 0rem 2rem 0rem;
   }
@@ -1107,7 +1205,7 @@ canvas {
 }
 @media (max-width: 1150px) {
   .oT_texts-title{
-    font-size: 36px;
+    font-size: 24px;
   }
   .oT_texts-desc{
     line-height: 30px;
@@ -1118,18 +1216,22 @@ canvas {
     padding: 2rem 0rem 1rem 0rem;
   }
   .oT_top-texts{
-    flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 660px) {
+  .ourTeam{
+    padding: 1rem;
+  }
+  .oT_top{
+    gap: 1rem;
+  }
   .oT_top-texts{
-    padding: 1rem 0 0;
+    flex-direction: column;
   }
-  .oT_texts-title{
-    font-size: 32px;
-  }
+}
+@media (max-width: 480px) {
   .oT_texts-desc{
     font-size: 14px;
     line-height: 24px
@@ -1148,11 +1250,12 @@ canvas {
 
 .progressysBlog {
   padding: 3rem 1rem;
+}
+.pb_container{
   display: flex;
   flex-direction: column;
-  opacity: 0;
-  visibility: hidden; /* Prevents flicker if opacity is 0 */
-  transform: translateY(50px); /* Optional: mimic animation start for non-GSAP fallback */
+  max-width: 1500px;
+  margin: auto;
 }
 .pb_top {
   display: flex;
@@ -1162,7 +1265,8 @@ canvas {
   margin-bottom: 1rem;
 }
 .pb_top-title {
-  font-size: 36px;
+  font-size: 48px;
+  line-height: 84px;
   font-weight: 600;
   font-family: "DM Sans", sans-serif;
 }
@@ -1237,6 +1341,23 @@ canvas {
   line-height: 24px;
   color: #565656;
 }
+@media (min-width: 1600px) {
+  .pb_container{
+    max-width: fit-content;
+  }
+  .pb_top-btns{
+    display: none;
+  }
+  .pb_blogs{
+    justify-content: center;
+  }
+}
+@media (max-width: 660px) {
+  .pb_top-title{
+    font-size: 42px;
+    line-height: normal;
+  }
+}
 @media (max-width: 480px) {
   .subtitle {
     margin-bottom: 0;
@@ -1266,9 +1387,13 @@ footer {
   padding: 2rem 7rem 0;
   margin: 1rem;
   border-radius: 30px;
+}
+.footer_container{
   display: flex;
   flex-direction: column;
   gap: 5rem;
+  max-width: 1500px;
+  margin: auto;
 }
 .footer_top {
   display: flex;

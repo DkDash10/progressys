@@ -278,7 +278,7 @@ const WhatWeDo = () => {
       lines.push(line);
 
       // Calculate total height to center vertically
-      const lineHeight = fontSize * 1.2;
+      const lineHeight = fontSize * 1.8;
       const totalHeight = lines.length * lineHeight;
       let yPos = y - totalHeight / 2 + lineHeight / 2;
 
