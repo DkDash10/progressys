@@ -190,10 +190,11 @@
 
 .offering_title {
   font-family: "DM Sans", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 34px;
   font-weight: 600;
   color: #8088e6;
+  cursor: pointer;
 }
 
 .offering_detail {
@@ -318,6 +319,11 @@
   padding-right: 5px; /* Add some padding for scrollbar */
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+.scrollable_content.no_mask {
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 /* Customize scrollbar */

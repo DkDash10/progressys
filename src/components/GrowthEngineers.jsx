@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BGIT from "../assets/icons/blackGetInTouch.svg";
 import mission from "../assets/img/mission.png";
-import vision from "../assets/img/vision1.png";
+import vision from "../assets/img/vision.png";
 import goal from "../assets/img/goal.png";
 import { useModal } from "../contexts/modalContext";
 
@@ -19,7 +19,6 @@ const cardData = [
     title: "Vision",
     text: "A world where progress is a system, not a privilege.",
     image: vision,
-    extraClass: "ge_card-vision",
   },
   {
     title: "Goal",
@@ -31,6 +30,8 @@ const cardData = [
 const GrowthEngineers = () => {
   const titleRef = useRef(null);
   const spanRefs = useRef([]);
+  const imgRefs = useRef([]);
+  imgRefs.current = [];
   spanRefs.current = [];
 
   const { openModal } = useModal();
@@ -39,20 +40,20 @@ const GrowthEngineers = () => {
     const mediaQuery = window.matchMedia("(min-width: 660px)");
     const ctx = gsap.context(() => {
       if (mediaQuery.matches && titleRef.current) {
-        const container = titleRef.current.parentNode; // .ge_top
+        const container = titleRef.current.parentNode;
   
         gsap.to(titleRef.current, {
           scrollTrigger: {
             trigger: container,
-            start: "top 50%",  // start when .ge_top hits top of viewport
-            end: "bottom 0%", // end when bottom of .ge_top hits top of viewport
+            start: "top 50%",
+            end: "bottom 0%",
             scrub: true,
           },
           y: () => container.clientHeight - titleRef.current.clientHeight,
           ease: "expoScale(0.5,7,none)",
         });
       }
-
+  
       spanRefs.current.forEach((span) => {
         if (!span) return;
         gsap.fromTo(
@@ -72,10 +73,32 @@ const GrowthEngineers = () => {
           }
         );
       });
+  
+      imgRefs.current.forEach((img) => {
+        if (!img) return;
+        const card = img.closest(".ge_card");
+      
+        gsap.fromTo(
+          img,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 70%", // Animate as the card enters
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
     });
-
-    return () => ctx.revert(); // cleanup
+  
+    return () => ctx.revert();
   }, []);
+  
 
   return (
     <section className="growthEngineers">
@@ -99,6 +122,7 @@ const GrowthEngineers = () => {
                 src={card.image}
                 alt={card.title}
                 className={card.extraClass || ""}
+                ref={(el) => (imgRefs.current[index] = el)}
               />
               <div className="ge_card-texts">
                 <span ref={(el) => (spanRefs.current[index] = el)}>

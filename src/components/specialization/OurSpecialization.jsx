@@ -5,6 +5,13 @@ import { GoDotFill } from "react-icons/go";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HiXMark } from "react-icons/hi2";
+import DiT from "../../assets/img/DiT.png"
+import HRC from "../../assets/img/HRC.png"
+import MtS from "../../assets/img/MtS.png"
+import RnS from "../../assets/img/RnS.png"
+import SoTr from "../../assets/img/SoTr.png"
+import TLP from "../../assets/img/TLP.png"
+import TnSE from "../../assets/img/TnSE.png"
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -92,7 +99,7 @@ const OurSpecialization = () => {
       title: "Research & Strategy",
       content: "Velocity meets Scalability to transform your business.",
       offerings: researchStrategyOfferings,
-      image: BnC
+      image: RnS
     },
     {
       id: "02",
@@ -114,7 +121,7 @@ const OurSpecialization = () => {
           description: "Omnichannel customer journeys powered by sentiment analysis and real-time data."
         }
       ],
-      image: BnC
+      image: DiT
     },
     {
       id: "03",
@@ -134,7 +141,7 @@ const OurSpecialization = () => {
           description: "Carbon footprint analytics + stakeholder transparency dashboards."
         }
       ],
-      image: BnC
+      image: SoTr
     },
     {
       id: "04",
@@ -154,7 +161,7 @@ const OurSpecialization = () => {
           description: "A/B testing labs + attribution modeling."
         }
       ],
-      image: BnC
+      image: MtS
     },
     {
       id: "05",
@@ -194,7 +201,7 @@ const OurSpecialization = () => {
           description: "Hybrid team analytics + contractor engagement platforms."
         }
       ],
-      image: BnC
+      image: HRC
     },
     {
       id: "07",
@@ -214,7 +221,7 @@ const OurSpecialization = () => {
           description: "Byte-sized courses on-demand (5G-enabled AR/VR)."
         }
       ],
-      image: BnC
+      image: TnSE
     },
     {
       id: "08",
@@ -234,7 +241,7 @@ const OurSpecialization = () => {
           description: "Progress Algorithm Conclave (live debates on quantum + ESG)."
         }
       ],
-      image: BnC
+      image: TLP
     }
   ];
 
@@ -245,28 +252,34 @@ const OurSpecialization = () => {
   const [modalContent, setModalContent] = useState(null);
   const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
 
-  // New state to track content overflow
-  const [overflowingItems, setOverflowingItems] = useState({});
+   // State to track content overflow and scroll position
+   const [contentScrollState, setContentScrollState] = useState({});
 
   // Refs for animation targets
   const descriptionRef = useRef(null);
+  const descriptionSectionRef = useRef(null);
   const accordionRefs = useRef([]);
   const modalRef = useRef(null);
   const modalOverlayRef = useRef(null);
   const contentRefs = useRef({});
+  const wordSpansRef = useRef([]);
 
-  // Function to check if content is overflowing
-  const checkContentOverflow = (id) => {
-    if (contentRefs.current[id]) {
-      const contentElement = contentRefs.current[id];
-      const isOverflowing = contentElement.scrollHeight > contentElement.clientHeight;
-      
-      setOverflowingItems(prev => ({
-        ...prev,
-        [id]: isOverflowing
-      }));
-    }
-  };
+ // Function to check if content is overflowing and update scroll state
+ const checkContentOverflow = (id) => {
+  if (contentRefs.current[id]) {
+    const contentElement = contentRefs.current[id];
+    const isOverflowing = contentElement.scrollHeight > contentElement.clientHeight;
+    const isScrolledToBottom = Math.abs((contentElement.scrollHeight - contentElement.scrollTop) - contentElement.clientHeight) < 1;
+    
+    setContentScrollState(prev => ({
+      ...prev,
+      [id]: {
+        isOverflowing,
+        isScrolledToBottom: isOverflowing ? isScrolledToBottom : true
+      }
+    }));
+  }
+};
 
   // Check for overflow whenever an accordion opens
   useEffect(() => {
@@ -278,6 +291,21 @@ const OurSpecialization = () => {
     }
   }, [openAccordion]);
 
+   // Handle scroll events for scrollable content
+   const handleContentScroll = (id) => (e) => {
+    const element = e.target;
+    const isScrolledToBottom = Math.abs((element.scrollHeight - element.scrollTop) - element.clientHeight) < 1;
+    
+    setContentScrollState(prev => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        isScrolledToBottom
+      }
+    }));
+  };
+
+  // Set up scroll-driven animation for description text
   useEffect(() => {
     const descriptionElement = descriptionRef.current;
     if (descriptionElement) {
@@ -286,37 +314,81 @@ const OurSpecialization = () => {
   
       // Clear the original content
       descriptionElement.textContent = '';
-  
+      
+      // Create wrapper for animation target
+      const wrapper = document.createElement('div');
+      wrapper.className = 'description_animation_wrapper';
+      descriptionElement.appendChild(wrapper);
+      
       // Create span for each word + add space after it
+      const wordSpans = [];
       words.forEach((word, index) => {
         const wordSpan = document.createElement('span');
         wordSpan.textContent = word;
         wordSpan.style.display = 'inline-block';
-        wordSpan.style.opacity = '0.2';
+        wordSpan.style.opacity = '0.5';
         wordSpan.style.transform = 'translateY(20px)';
-        descriptionElement.appendChild(wordSpan);
+        wordSpan.className = 'animated_word';
+        wrapper.appendChild(wordSpan);
+        wordSpans.push(wordSpan);
   
         // Add a space as a separate text node
         if (index < words.length - 1) {
-          descriptionElement.appendChild(document.createTextNode(' '));
+          wrapper.appendChild(document.createTextNode(' '));
         }
       });
-  
-      // Animate the words
-      gsap.to(descriptionElement.querySelectorAll('span'), {
-        opacity: 1,
-        y: 0,
-        stagger: 0.05,
-        duration: 1.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: descriptionElement,
-          start: 'top 60%',
-          end: 'bottom 0%',
-          toggleActions: 'play none none reverse',
+      
+      wordSpansRef.current = wordSpans;
+      
+      // Create scroll-driven animation
+      const section = descriptionElement.closest('.oS_top') || descriptionElement.parentElement;
+      descriptionSectionRef.current = section;
+      
+      // Create ScrollTrigger for the section
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 40%", // Starts animation when the top of section hits 80% down the viewport
+        end: "bottom 0%", // Ends animation when bottom of section is 20% from the top of viewport
+        scrub: 0.5, // Smooth animation that follows scroll with a small delay
+        onUpdate: (self) => {
+          // Map progress (0-1) to animate words sequentially
+          const progress = self.progress;
+          
+          // Determine how many words should be visible based on progress
+          const totalWords = wordSpans.length;
+          const visibleWordCount = Math.ceil(progress * (totalWords + 5)); // +5 ensures full visibility at end
+          
+          wordSpans.forEach((span, i) => {
+            // Calculate opacity for each word based on its position in sequence
+            if (i < visibleWordCount) {
+              // Word should be fully visible
+              gsap.to(span, {
+                opacity: 1,
+                y: 0,
+                duration: 0.4,
+                ease: "power1.out",
+                overwrite: true
+              });
+            } else {
+              // Word should remain invisible
+              gsap.to(span, {
+                opacity: 0.5,
+                y: 0,
+                duration: 0.3,
+                ease: "power1.in",
+                overwrite: true
+              });
+            }
+          });
         },
+        markers: false // Change to true for debugging
       });
     }
+    
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
   
 
@@ -432,6 +504,41 @@ const OurSpecialization = () => {
       });
     }
   };
+// Handle scroll pause
+useEffect(() => {
+  let scrollTimeout;
+  
+  const handleScrollPause = () => {
+    clearTimeout(scrollTimeout);
+    
+    // Set timeout to detect when scrolling stops
+    scrollTimeout = setTimeout(() => {
+      // When scroll pauses, make sure current state is preserved
+      if (wordSpansRef.current.length > 0) {
+        // This ensures animation state is held when scrolling stops
+        const currentStates = wordSpansRef.current.map(span => ({
+          opacity: parseFloat(window.getComputedStyle(span).opacity),
+          y: gsap.getProperty(span, "y")
+        }));
+        
+        // Apply current state to ensure it holds
+        wordSpansRef.current.forEach((span, i) => {
+          gsap.set(span, {
+            opacity: currentStates[i].opacity,
+            y: currentStates[i].y
+          });
+        });
+      }
+    }, 150); // Adjust timeout as needed
+  };
+  
+  window.addEventListener('scroll', handleScrollPause);
+  
+  return () => {
+    window.removeEventListener('scroll', handleScrollPause);
+    clearTimeout(scrollTimeout);
+  };
+}, []);
 
   useEffect(() => {
     document.body.style.overflow = showModal ? 'hidden' : 'auto';
@@ -490,24 +597,29 @@ const OurSpecialization = () => {
                         // Special content for Research & Strategy
                         <div className="research_strategy">
                           <div 
-                            className="content scrollable_content" 
+                            className={`content scrollable_content ${
+                              contentScrollState[item.id]?.isOverflowing && 
+                              !contentScrollState[item.id]?.isScrolledToBottom ? 
+                              "show_mask" : "no_mask"
+                            }`}
                             ref={el => contentRefs.current[item.id] = el}
+                            onScroll={handleContentScroll(item.id)}
                           >
                             <p className="main_content">{item.content}</p>
                             <div className="offerings_list">
                               {item.offerings.map((offering, idx) => (
                                 <div key={idx} className="offering_item">
-                                  <p className="offering_title">{offering.title}</p>
-                                  <p className="offering_detail"><GoDotFill /><strong>Approach:</strong> {offering.approach}</p>
+                                  <p className="offering_title" onClick={(e) => handleReadMore(item, e)}>{offering.title}</p>
+                                  {/* <p className="offering_detail"><GoDotFill /><strong>Approach:</strong> {offering.approach}</p>
                                   <p className="offering_detail"><GoDotFill /><strong>Subpoints:</strong> {offering.subpoints}</p>
-                                  <p className="offering_detail"><GoDotFill /><strong>Transformation Impact:</strong> {offering.impact}</p>
+                                  <p className="offering_detail"><GoDotFill /><strong>Transformation Impact:</strong> {offering.impact}</p> */}
                                 </div>
                               ))}
                             </div>
                           </div>
                           
                           {/* Show Read More only if content is overflowing or always for this item */}
-                          {(item.id === "01" || overflowingItems[item.id]) && (
+                          {/* {(item.id === "01" || overflowingItems[item.id]) && (
                             <div className="read_more_container">
                               <svg
                                 className="read_more_icon" 
@@ -522,14 +634,19 @@ const OurSpecialization = () => {
                                 Read More
                               </button>
                             </div>
-                          )}
+                          )} */}
                         </div>
                       ) : (
                         // Standard content for other items
                         <div className="standard_content">
                           <div 
-                            className="content scrollable_content"
+                            className={`content scrollable_content ${
+                              contentScrollState[item.id]?.isOverflowing && 
+                              !contentScrollState[item.id]?.isScrolledToBottom ? 
+                              "show_mask" : "no_mask"
+                            }`}
                             ref={el => contentRefs.current[item.id] = el}
+                            onScroll={handleContentScroll(item.id)}
                           >
                             <p className="headline">{item.headline}</p>
                             {/* {item.tagline && <p className="tagline">{item.tagline}</p>} */}
@@ -546,7 +663,7 @@ const OurSpecialization = () => {
                           </div>
                           
                           {/* Show Read More button only if content is overflowing */}
-                          {overflowingItems[item.id] && (
+                          {/* {overflowingItems[item.id] && (
                             <div className="read_more_container">
                               <svg
                                 className="read_more_icon" 
@@ -561,7 +678,7 @@ const OurSpecialization = () => {
                                 Read More
                               </button>
                             </div>
-                          )}
+                          )} */}
                         </div>
                       )}
                     </div>

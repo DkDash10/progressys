@@ -1,35 +1,44 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import { useModal } from "../../contexts/modalContext";
-import gsap from 'gsap';
-import './ContactFormModal.css';
+import gsap from "gsap";
+import "./ContactFormModal.css";
 import { HiXMark } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
+import { FaCheck, FaTimes } from "react-icons/fa";
 
 function ContactFormModal() {
   const { isModalOpen, closeModal } = useModal();
   const [isSelectFocused, setIsSelectFocused] = useState(false);
+  const [formStatus, setFormStatus] = useState("idle");
   const modalRef = useRef(null);
   const overlayRef = useRef(null);
   const formRef = useRef(null);
+  const messageRef = useRef(null);
 
   useEffect(() => {
-    if (!isModalOpen || !modalRef.current || !overlayRef.current || !formRef.current) return;
-  
+    if (
+      !isModalOpen ||
+      !modalRef.current ||
+      !overlayRef.current ||
+      !formRef.current
+    )
+      return;
+
     const modal = modalRef.current;
     const overlay = overlayRef.current;
     const form = formRef.current;
-  
+
     const { x, y } = window.modalClickPosition || {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
     };
-  
+
     const bounds = modal.getBoundingClientRect();
     const offsetX = x - (bounds.left + bounds.width / 2);
     const offsetY = y - (bounds.top + bounds.height / 2);
-  
+
     const tl = gsap.timeline();
-  
+
     tl.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3 })
       .fromTo(
         modal,
@@ -82,14 +91,14 @@ function ContactFormModal() {
         ease: "power2.inOut",
         onComplete: () => {
           closeModal();
-        }
+        },
       });
     }
     if (overlayRef.current) {
       gsap.to(overlayRef.current, {
         opacity: 0,
         duration: 0.3,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       });
     }
   };
@@ -102,139 +111,230 @@ function ContactFormModal() {
   };
 
   useEffect(() => {
-    document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
+    document.body.style.overflow = isModalOpen ? "hidden" : "auto";
   }, [isModalOpen]);
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    priority: '',
-    companySize: ''
+    name: "",
+    email: "",
+    priority: "",
+    companySize: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setFormStatus("submitting");
 
-    setFormData({
-      name: '',
-      email: '',
-      priority: '',
-      companySize: ''
-    });
+    try {
+      const response = await fetch("https://formspree.io/f/meogojyn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const tl = gsap.timeline();
+      if (response.ok) {
+        setFormData({
+          name: "",
+          email: "",
+          priority: "",
+          companySize: "",
+        });
+        setFormStatus("success");
 
-    closeAnimateModal();
-    alert('Form submitted successfully!');
+        tl.fromTo(
+          messageRef.current,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
+        );
+
+        setTimeout(() => {
+          setFormStatus("idle");
+          closeAnimateModal();
+        }, 1000);
+      } else {
+        setFormStatus("error");
+
+        tl.fromTo(
+          messageRef.current,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
+        );
+      }
+      setTimeout(() => {
+        setFormStatus("idle");
+        closeAnimateModal();
+      }, 1000);
+    } catch (error) {
+      console.error("Submission error:", error);
+      setFormStatus("error");
+
+      gsap.fromTo(
+        messageRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
+      );
+    }
+    setTimeout(() => {
+      setFormStatus("idle");
+      closeAnimateModal();
+    }, 1000);
   };
 
   if (!isModalOpen) return null;
 
   return (
-    <div className="modal-overlay" ref={overlayRef} onClick={handleOverlayClick}>
+    <div
+      className="modal-overlay"
+      ref={overlayRef}
+      onClick={handleOverlayClick}
+    >
       <div className="modal-content" ref={modalRef}>
-        <div className="modal-header">
-          <button className="modal-back" onClick={closeAnimateModal}>Go back</button>
-          <div className='modal-texts'>
-            <p className="modal-title">Let's Re-Engineer Your Legacy.</p>
-            <p className="modal-subtitle">Your email address will not be published. Required fields are marked *</p>
-          </div>
-          <button onClick={closeAnimateModal} className="close-btn">
-            <HiXMark />
-          </button>
-        </div>
-
-        <div className="modal-body" ref={formRef}>
-          <form onSubmit={handleSubmit} >
-            <div className="form-fields">
-              <div className="form-group">
-                {/* <label htmlFor="name" className="form-label">Name</label> */}
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="form-input"
-                  placeholder='Name*'
-                  required
-                />
+        {formStatus === "idle" || formStatus === "submitting" ? (
+          <>
+            <div className="modal-header">
+              <button className="modal-back" onClick={closeAnimateModal}>
+                Go back
+              </button>
+              <div className="modal-texts">
+                <p className="modal-title">Let's Re-Engineer Your Legacy.</p>
+                <p className="modal-subtitle">
+                  Your email address will not be published. Required fields are
+                  marked *
+                </p>
               </div>
+              <button onClick={closeAnimateModal} className="close-btn">
+                <HiXMark />
+              </button>
+            </div>
 
-              <div className="form-group">
-                {/* <label htmlFor="email" className="form-label">Email</label> */}
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="form-input"
-                  placeholder='Email*'
-                  required
-                />
-              </div>
+            <div className="modal-body" ref={formRef}>
+              <form onSubmit={handleSubmit}>
+                <div className="form-fields">
+                  <div className="form-group">
+                    {/* <label htmlFor="name" className="form-label">Name</label> */}
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="form-input"
+                      placeholder="Name*"
+                      required
+                    />
+                  </div>
 
-              <div className="form-group">
-                <label htmlFor="priority" className="form-label">My Growth Priority Is...*</label>
-                <div className='select-div'>
-                  <select
-                    id="priority"
-                    name="priority"
-                    value={formData.priority}
-                    onChange={handleChange}
-                    onFocus={() => setIsSelectFocused(true)}
-                    onBlur={() => setIsSelectFocused(false)}
-                    className={`form-select ${formData.priority === '' ? 'placeholder' : ''}`}
-                    required
-                  >
-                    <option value="" disabled>Select a priority</option>
-                    <option value="Tech"><span>Tech</span></option>
-                    <option value="Social Impact"><span>Social Impact</span></option>
-                    <option value="Talent"><span>Talent</span></option>
-                    <option value="Brand"><span>Brand</span></option>
-                  </select>
-                  <IoIosArrowDown
-                    className={`form-icon ${
-                      isSelectFocused ? 'rotate' : ''
-                    } ${formData.priority !== '' ? 'hidden' : ''}`}
-                  />
-                </div>
-              </div>
+                  <div className="form-group">
+                    {/* <label htmlFor="email" className="form-label">Email</label> */}
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="form-input"
+                      placeholder="Email*"
+                      required
+                    />
+                  </div>
 
-              <div className="form-group">
-                <label className="form-label">Company Size*</label>
-                <div className="radio-group">
-                  {["Startup", "Mid-Market", "Enterprise"].map(size => (
-                    <label key={size} className="radio-label">
-                      <input
-                        type="radio"
-                        name="companySize"
-                        value={size}
-                        checked={formData.companySize === size}
-                        onChange={handleChange}
-                        className="radio-input"
-                        required
-                      />
-                      <span className="radio-text">{size}</span>
+                  <div className="form-group">
+                    <label htmlFor="priority" className="form-label">
+                      My Growth Priority Is...*
                     </label>
-                  ))}
-                </div>
-              </div>
-            </div>
+                    <div className="select-div">
+                      <select
+                        id="priority"
+                        name="priority"
+                        value={formData.priority}
+                        onChange={handleChange}
+                        onFocus={() => setIsSelectFocused(true)}
+                        onBlur={() => setIsSelectFocused(false)}
+                        className={`form-select ${
+                          formData.priority === "" ? "placeholder" : ""
+                        }`}
+                        required
+                      >
+                        <option value="" disabled>
+                          Select a priority
+                        </option>
+                        <option value="Tech">Tech</option>
+                        <option value="Social Impact">Social Impact</option>
+                        <option value="Talent">Talent</option>
+                        <option value="Brand">Brand</option>
+                      </select>
+                      <IoIosArrowDown
+                        className={`form-icon ${
+                          isSelectFocused ? "rotate" : ""
+                        } ${formData.priority !== "" ? "hidden" : ""}`}
+                      />
+                    </div>
+                  </div>
 
-            <div className="form-footer">
-              <button type="submit" className="submit-btn">Submit</button>
+                  <div className="form-group">
+                    <label className="form-label">Company Size*</label>
+                    <div className="radio-group">
+                      {["Startup", "Mid-Market", "Enterprise"].map((size) => (
+                        <label key={size} className="radio-label">
+                          <input
+                            type="radio"
+                            name="companySize"
+                            value={size}
+                            checked={formData.companySize === size}
+                            onChange={handleChange}
+                            className="radio-input"
+                            required
+                          />
+                          <span className="radio-text">{size}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-footer">
+                  <button
+                    type="submit"
+                    className="submit-btn"
+                    disabled={formStatus === "submitting"}
+                  >
+                    {formStatus === "submitting" ? "Submitting..." : "Submit"}
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
+          </>
+        ) : (
+          <div className="form-message-screen" ref={messageRef}>
+            {formStatus === "success" ? (
+              <>
+                <FaCheck className="message-icon success" />
+                <p className="message-text success">
+                  Thank you! <br />
+                  We’ll get back to you shortly.
+                </p>
+              </>
+            ) : (
+              <>
+                <FaTimes className="message-icon error" />
+                <p className="message-text error">
+                  Something went wrong. <br />
+                  Please try again.
+                </p>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

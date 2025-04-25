@@ -1387,6 +1387,14 @@ footer {
   padding: 2rem 7rem 0;
   margin: 1rem;
   border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+}
+.footer_svg{
+  position: absolute;
+  top: 0;
+  left: 50px;
+  mix-blend-mode: multiply;
 }
 .footer_container{
   display: flex;
@@ -1408,6 +1416,7 @@ footer {
   display: flex;
   gap: 0.5rem;
   padding: 0 2rem;
+  z-index: 2;
 }
 .footer_top-links a svg {
   font-size: 24px;
@@ -1439,7 +1448,13 @@ footer {
   letter-spacing: -0.48px;
 }
 .footer_middle-center a {
+  position: relative;
   color: #fff;
+  transition: all 0.3s ease-in-out;
+  z-index: 2;
+}
+.footer_middle-center a:hover{
+  color: #8080e6;
 }
 .footer_bottom {
   padding: 2rem 0;

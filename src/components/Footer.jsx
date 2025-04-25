@@ -1,13 +1,56 @@
-import React from 'react'
-import { FaLinkedinIn } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
+import React, { useEffect, useRef } from 'react'
 import { FaXTwitter } from "react-icons/fa6";
-import { FaFacebookF } from "react-icons/fa";
+import { FaLinkedinIn, FaInstagram, FaFacebookF } from "react-icons/fa";
+import gsap from 'gsap';
 
 
 const Footer = () => {
+    const svgRef = useRef(null);
+  const footerRef = useRef(null);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    const footer = footerRef.current;
+
+    const handleMouseMove = (e) => {
+      const { left, top } = footer.getBoundingClientRect();
+      const x = e.clientX - left;
+      const y = e.clientY - top;
+
+      gsap.to(svg, {
+        x: x - 150, // Offset to center the circle
+        y: y - 150,
+        duration: 0.4,
+        ease: 'power2.out',
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(svg, {
+        opacity: 0,
+        duration: 0.3,
+      });
+    };
+
+    const handleMouseEnter = () => {
+      gsap.to(svg, {
+        opacity: 1,
+        duration: 0.3,
+      });
+    };
+
+    footer.addEventListener('mousemove', handleMouseMove);
+    footer.addEventListener('mouseenter', handleMouseEnter);
+    footer.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      footer.removeEventListener('mousemove', handleMouseMove);
+      footer.removeEventListener('mouseenter', handleMouseEnter);
+      footer.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
   return (
-    <footer>
+    <footer ref={footerRef}>
         <div className="footer_container">
             <div className='footer_top'>
                 <p>let`s talk</p>
@@ -50,13 +93,17 @@ const Footer = () => {
                         <span> &nbsp; 9am – 6pm</span>
                     </div>
                     <div>
-                        <span>st – sun:</span>
+                        <span>sat – sun:</span>
                         <span> &nbsp; 10am – 12am</span>
                     </div>
                 </div>
             </div>
             <p className='footer_bottom'>Copyright © 2025 Progressys. All Rights Reserved</p>
         </div>
+        <svg ref={svgRef} className='footer_svg' width="303" height="303" viewBox="0 0 303 303" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="151.5" cy="151.5" r="151.5" fill="#8080e6" fill-opacity="1"/>
+        </svg>
+
     </footer>
   )
 }
