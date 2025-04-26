@@ -58,6 +58,7 @@
   cursor: pointer;
   background-color: #fff;
   gap: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .accordion_title {
@@ -108,43 +109,7 @@
   background-color: #fff;
   padding: 1.5rem 3rem;
   transform-origin: top;
-  animation: accordionOpen 0.3s ease forwards;
 }
-
-/* Animation for opening from below */
-.open_below .accordion_content {
-  transform-origin: bottom;
-  animation: accordionOpenBelow 0.3s ease forwards;
-}
-
-/* Animation for opening from above */
-.open_above .accordion_content {
-  transform-origin: top;
-  animation: accordionOpenAbove 0.3s ease forwards;
-}
-
-@keyframes accordionOpenBelow {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes accordionOpenAbove {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .content_wrapper {
   display: flex;
   gap: 1rem;
@@ -173,8 +138,8 @@
 }
 .research_strategy .main_content {
   font-weight: 500;
-  font-size: 32px;
-  line-height: 44px;
+  font-size: 24px;
+  line-height: 32px;
   letter-spacing: -0.64px;
 }
 .offerings{
@@ -199,16 +164,16 @@
 
 .offering_detail {
   font-family: "DM Sans", sans-serif;
-  font-size: 20px;
-  line-height: 34px;
+  font-size: 18px;
+  line-height: 24px;
   color: #444444;
 }
 
 /* Standard content styles */
 .standard_content .headline {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 500;
-  line-height: 44px;
+  line-height: 32px;
   letter-spacing: -0.64px;
 }
 
@@ -231,16 +196,16 @@
 }
 .offerings_title {
   font-family: "DM Sans", sans-serif;
-  font-size: 24px;
-  line-height: 34px;
+  font-size: 20px;
+  line-height: 32px;
   color: #8088e6;
   font-weight: 600;
 }
 
 .offering_name {
   font-weight: 900;
-  font-size: 20px;
-  line-height: 34px;
+  font-size: 18px;
+  line-height: 24px;
   color: #444444;
   font-family: "DM Sans", sans-serif;
 }
@@ -250,8 +215,8 @@
 }
 .offering_desc {
   font-family: "DM Sans", sans-serif;
-  font-size: 20px;
-  line-height: 34px;
+  font-size: 18px;
+  line-height: 24px;
   color: #444444;
 }
 
@@ -474,7 +439,11 @@
   color: #444444;
   font-family: "DM Sans", sans-serif;
 }
-
+@media (min-width: 1500px) {
+  .accordion_heading{
+    font-size: 100px;
+  }
+}
 @media (max-width: 1400px) {
   .description{
     font-size: 36px;
@@ -522,10 +491,10 @@
     height: auto; /* Let height be determined by content on mobile */
     min-height: 320px; /* Minimum height on mobile */
   }
-  .standard_content .headline, .research_strategy .main_content{
+  /* .standard_content .headline, .research_strategy .main_content{
     font-size: 24px;
     line-height: 36px;
-  }
+  } */
   .offerings_list{
     max-height: 320px;
     gap: 2rem;

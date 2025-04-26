@@ -392,49 +392,75 @@ const OurSpecialization = () => {
   }, []);
   
 
-  // Function to handle accordion animations
-  const animateAccordionContent = (id, position) => {
+  const animateAccordionContent = (id, isOpening) => {
     const accordionContent = document.querySelector(`[data-accordion="${id}"] .accordion_content`);
+    const accordionHeader = document.querySelector(`[data-accordion="${id}"] .accordion_header`);
     
     if (accordionContent) {
-      // Clear any existing animations
-      gsap.killTweensOf(accordionContent);
+      // Kill any existing animations
+      gsap.killTweensOf([accordionContent, accordionHeader]);
       
-      // Set initial position
-      gsap.set(accordionContent, { 
-        opacity: 0,
-        y: position === "below" ? -50 : 50
-      });
-      
-      // Animate
-      gsap.to(accordionContent, {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        ease: "power2.out"
-      });
+      if (isOpening) {
+        // Opening animation
+        gsap.fromTo(accordionContent, 
+          {
+            height: 0,
+            opacity: 0,
+            transformOrigin: "top",
+            y: -20
+          },
+          {
+            height: "auto",
+            opacity: 1,
+            y: 0,
+            duration: 2,
+            ease: "power2.out"
+          }
+        );
+        
+        // Animate header
+        gsap.to(accordionHeader, {
+          backgroundColor: "#181818",
+          color: "#ffffff",
+          duration: 0.3
+        });
+      } else {
+        // Closing animation
+        gsap.to(accordionContent, {
+          height: 0,
+          opacity: 0,
+          y: -20,
+          duration: 0.4,
+          ease: "power2.in"
+        });
+        
+        // Reset header
+        gsap.to(accordionHeader, {
+          backgroundColor: "transparent",
+          color: "#181818",
+          duration: 0.3
+        });
+      }
     }
   };
-
-  // Toggle accordion function with position control and animation
+  
+  // Update the toggleAccordion function
   const toggleAccordion = (id) => {
-    const currentIndex = specializationData.findIndex(item => item.id === openAccordion);
-    const newIndex = specializationData.findIndex(item => item.id === id);
-    
-    // Determine if new accordion should open from below or above
-    let position;
-    if (currentIndex < newIndex) {
-      position = "below";
+    if (openAccordion === id) {
+      // Closing current accordion
+      animateAccordionContent(id, false);
+      setTimeout(() => setOpenAccordion(null), 400);
     } else {
-      position = "above";
-    }
-    
-    setOpenPosition(position);
-    setOpenAccordion(id === openAccordion ? null : id);
-    
-    // If opening an accordion, trigger animation after state update
-    if (id !== openAccordion) {
-      setTimeout(() => animateAccordionContent(id, position), 50);
+      // If there's an open accordion, close it first
+      if (openAccordion) {
+        animateAccordionContent(openAccordion, false);
+      }
+      
+      // Open new accordion after a slight delay
+      setTimeout(() => {
+        setOpenAccordion(id);
+        animateAccordionContent(id, true);
+      }, openAccordion ? 200 : 0);
     }
   };
 
