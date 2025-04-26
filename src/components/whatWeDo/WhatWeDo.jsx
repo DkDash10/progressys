@@ -13,6 +13,22 @@ import {
 } from "matter-js";
 import MobileTextAnimation from "./MobileTextAnimation";
 
+function lerpColor(a, b, amount) {
+  const ah = parseInt(a.replace(/#/g, ""), 16),
+        ar = (ah >> 16) & 0xff,
+        ag = (ah >> 8) & 0xff,
+        ab = ah & 0xff,
+        bh = parseInt(b.replace(/#/g, ""), 16),
+        br = (bh >> 16) & 0xff,
+        bg = (bh >> 8) & 0xff,
+        bb = bh & 0xff,
+        rr = ar + amount * (br - ar),
+        rg = ag + amount * (bg - ag),
+        rb = ab + amount * (bb - ab);
+
+  return "#" + (((1 << 24) + (rr << 16) + (rg << 8) + (rb | 0)).toString(16).slice(1));
+}
+
 const WhatWeDo = () => {
   const sceneRef = useRef(null);
   const engineRef = useRef(null);
@@ -21,6 +37,7 @@ const WhatWeDo = () => {
   const sectionRef = useRef(null); // Add this ref for the section
   const [isInView, setIsInView] = useState(false); // Add state to track visibility
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const mousePositionRef = useRef({ x: 0, y: 0 });
 
   // Services data
 
@@ -172,7 +189,7 @@ const WhatWeDo = () => {
 
       renderRef.current.canvas.addEventListener("mousemove", (event) => {
         const bounds = renderRef.current.canvas.getBoundingClientRect();
-        const mousePosition = {
+        mousePositionRef.current = {
           x: event.clientX - bounds.left,
           y: event.clientY - bounds.top,
         };
@@ -180,17 +197,23 @@ const WhatWeDo = () => {
         const bodies = Composite.allBodies(engineRef.current.world);
         let hovering = false;
 
+        const mousePosition = mousePositionRef.current;
+
         bodies.forEach((body) => {
+          if (!body.isStatic && body.custom) {
+            body.custom.currentColor = lerpColor(body.custom.currentColor, body.custom.targetColor, 0.03);
+            body.render.fillStyle = body.custom.currentColor;
+          }
           if (!body.isStatic) {
             const dx = mousePosition.x - body.position.x;
             const dy = mousePosition.y - body.position.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-
+        
             if (distance < body.circleRadius) {
-              body.render.fillStyle = "#EF5399";
+              body.custom.targetColor = "#EF5399"; // Smoothly move towards pink
               hovering = true;
-            } else if (!body.highlighted) {
-              body.render.fillStyle = "#444444";
+            } else {
+              body.custom.targetColor = "#444444"; // Smoothly move back to gray
             }
           }
         });
@@ -228,24 +251,44 @@ const WhatWeDo = () => {
     Events.on(renderRef.current, "afterRender", () => {
       const context = renderRef.current.context;
       const bodies = Composite.allBodies(engineRef.current.world);
-
-      // Add labels to circles with text wrapping
+    
+      let hovering = false;
+      const mousePosition = mousePositionRef.current;
+    
+      bodies.forEach((body) => {
+        if (!body.isStatic && body.custom) {
+          const dx = mousePosition.x - body.position.x;
+          const dy = mousePosition.y - body.position.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+    
+          if (distance < body.circleRadius) {
+            body.custom.targetColor = "#EF5399";
+            hovering = true;
+          } else {
+            body.custom.targetColor = "#444444";
+          }
+    
+          // Smoothly interpolate fill color
+          body.custom.currentColor = lerpColor(body.custom.currentColor, body.custom.targetColor, 0.1);
+          body.render.fillStyle = body.custom.currentColor;
+        }
+      });
+    
+      renderRef.current.canvas.style.cursor = hovering ? "grab" : "default";
+    
+      // Also draw labels after colors updated
       for (let i = 0; i < bodies.length; i++) {
         const body = bodies[i];
-
-        // Skip walls
         if (body.isStatic) continue;
-
-        // Draw labels with padding
         if (body.circleRadius) {
           drawWrappedText(
             context,
             body.label,
             body.position.x,
             body.position.y,
-            body.circleRadius * 1.5, // Max width for text with padding
-            14, // Font size
-            "#fff" // Text color
+            body.circleRadius * 1.5,
+            14,
+            "#fff"
           );
         }
       }
@@ -311,7 +354,7 @@ const WhatWeDo = () => {
     const radius = service.size;
 
     const circle = Bodies.circle(x, -100, radius, {
-      restitution: 0.8, // Bounciness
+      restitution: 0.8,
       friction: 0.005,
       density: 0.04,
       label: service.name,
@@ -320,6 +363,10 @@ const WhatWeDo = () => {
         fillStyle: service.highlighted ? "#EF5399" : "#444444",
         strokeStyle: "#333",
         lineWidth: 1,
+      },
+      custom: {
+        currentColor: service.highlighted ? "#EF5399" : "#444444",
+        targetColor: service.highlighted ? "#EF5399" : "#444444",
       },
     });
 

@@ -191,6 +191,9 @@ const Model5D = () => {
           <p className="m5D_mid-subtitle">Our Growth Algorithm™</p>
           <div className="m5D_mid-main">
             <img className="m5D_mid-img1" src={Ellipse} alt="Ellipse" />
+            <svg className="m5D_mid-img1-desk" width="1600" height="1600" viewBox="0 0 2016 2016" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="1008" cy="1008" r="1008" fill="#F5F5F5"/>
+            </svg>
             <img className="m5D_mid-img2" src={Polygon} alt="Polygon" />
             
             {/* Desktop Layout */}

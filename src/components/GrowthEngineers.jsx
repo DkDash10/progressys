@@ -88,7 +88,7 @@ const GrowthEngineers = () => {
             ease: "power3.out",
             scrollTrigger: {
               trigger: card,
-              start: "top 70%", // Animate as the card enters
+              start: "top 60%", // Animate as the card enters
               toggleActions: "play none none reverse",
             },
           }

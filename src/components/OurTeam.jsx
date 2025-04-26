@@ -119,13 +119,13 @@ const OurTeam = () => {
       <div className="oT_top">
         <span className="subtitle">Our Team</span>
         <div className="oT_top-texts">
-          <p className="oT_texts-title" ref={titleRef}>
+          <p className="oT_texts-title" 
+          // ref={titleRef}
+          >
             Our Growth Engineers
           </p>
           <p className="oT_texts-desc">
-            Digital agencies are at the forefront of the digital landscape,
-            combining creative and technical expertise to help clients thrive in
-            the digital world.
+            Growth isn't a destination, it's a continuous journey.. and our team designs your path.
           </p>
         </div>
       </div>

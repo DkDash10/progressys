@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./OurSpecialization.css";
-import BnC from "../../assets/img/brandAndCulture.png"
+import BnC from "../../assets/img/BnC.png"
 import { GoDotFill } from "react-icons/go";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -20,73 +20,73 @@ const OurSpecialization = () => {
   const researchStrategyOfferings = [
     {
       title: "Market & Competitive Intelligence",
-      approach: "Deep-dive analytics into market trends, customer behavior, and competitor strategies.",
+      approach: "Analyze market trends and competitor strategies to find opportunities and mitigate risks.",
       subpoints: "Market sizing, SWOT analysis, disruptive threat assessment.",
       impact: "Uncover untapped opportunities and preempt risks."
     },
     {
       title: "Strategic Vision & Roadmapping",
-      approach: "Co-create long-term visions with actionable 3–5-year roadmaps.",
+      approach: "Create long-term visions with actionable plans to keep stakeholders aligned and responsive to changes.",
       subpoints: "Scenario planning, resource allocation, agile execution frameworks.",
       impact: "Align stakeholders and adapt dynamically to market shifts."
     },
     {
       title: "Customer-Centric Strategy",
-      approach: "Leverage data-driven insights to refine segmentation and journey mapping.",
+      approach: "Use data to improve customer experiences and retention through personalization and loyalty programs.",
       subpoints: "Personalization strategies, loyalty program design, CX/UX optimization.",
       impact: "Boost retention and lifetime value through hyper-relevance."
     },
     {
       title: "Digital Transformation & AI-Driven Innovation",
-      approach: "Integrate cutting-edge tech (AI, IoT, automation) into core operations.",
+      approach: "Incorporate advanced technology to enhance operations and generate new revenue.",
       subpoints: "Digital maturity assessment, AI-powered decision tools, omnichannel ecosystems.",
       impact: "Unlock new revenue streams and operational efficiencies."
     },
     {
       title: "Operational Excellence",
-      approach: "Streamline processes using Lean Six Sigma and automation.",
+      approach: "Improve business processes for increased efficiency and scalability using Lean Six Sigma principles.",
       subpoints: "Supply chain optimization, cost-reduction levers, agile workflows.",
       impact: "Achieve scalability with 20–30% efficiency gains."
     },
     {
       title: "Risk Management & Resilience Building",
-      approach: "Stress-test strategies against geopolitical, economic, and operational risks.",
+      approach: "Prepare for risks with plans and compliance measures to ensure stability.",
       subpoints: "Crisis playbooks, continuity planning, regulatory compliance.",
       impact: "Fortify against disruptions and ensure sustainable growth."
     },
     {
       title: "Sustainability & ESG Integration",
-      approach: "Embed ESG principles into core strategy and operations.",
+      approach: "Integrate environmental, social, and governance principles to build brand value and attract investors.",
       subpoints: "Carbon footprint reduction, ethical sourcing, impact measurement.",
       impact: "Enhance brand equity and attract conscious investors."
     },
     {
       title: "Growth & Market Expansion",
-      approach: "Identify whitespace opportunities via blue ocean strategies.",
+      approach: "Explore new market opportunities and diversify products with minimal risk.",
       subpoints: "Entry into emerging markets, M&A targeting, product diversification.",
       impact: "Accelerate revenue growth with minimal risk."
     },
     {
       title: "Organizational & Cultural Transformation",
-      approach: "Align talent, structure, and culture with strategic goals.",
+      approach: "Align team structure and culture with business goals to encourage innovation.",
       subpoints: "Change management, leadership development, DEI initiatives.",
       impact: "Foster innovation and agility through empowered teams."
     },
     {
       title: "M&A and Strategic Partnerships",
-      approach: "Advise on deal sourcing, due diligence, and post-merger integration.",
+      approach: "Guide mergers, acquisitions, and partnerships to enhance value and competitiveness.",
       subpoints: "Synergy analysis, joint venture structuring, alliance ecosystems.",
       impact: "Drive value capture and competitive consolidation."
     },
     {
       title: "Performance Tracking & KPI Optimization",
-      approach: "Design real-time dashboards and predictive analytics frameworks.",
+      approach: "Implement analytics to enable real-time decision-making and continuous improvement.",
       subpoints: "Balanced scorecards, OKR alignment, ROI measurement.",
       impact: "Enable data-driven pivots and continuous improvement."
     },
     {
       title: "Thought Leadership & Future Trends",
-      approach: "Publish proprietary research on megatrends (e.g., AI, decarbonization).",
+      approach: "Conduct research on emerging trends to position clients as leaders in their industries.",
       subpoints: "Trend forecasting, innovation labs, policy shaping.",
       impact: "Position clients as industry pioneers."
     }
@@ -609,8 +609,10 @@ useEffect(() => {
                             <div className="offerings_list">
                               {item.offerings.map((offering, idx) => (
                                 <div key={idx} className="offering_item">
-                                  <p className="offering_title" onClick={(e) => handleReadMore(item, e)}>{offering.title}</p>
-                                  {/* <p className="offering_detail"><GoDotFill /><strong>Approach:</strong> {offering.approach}</p>
+                                  <p className="offering_detail"><GoDotFill /><strong>{offering.title}:</strong> {offering.approach}</p>
+
+                                  {/* <p className="offering_title">{offering.title}</p>
+                                  <p className="offering_detail"><GoDotFill /><strong>Approach:</strong> {offering.approach}</p>
                                   <p className="offering_detail"><GoDotFill /><strong>Subpoints:</strong> {offering.subpoints}</p>
                                   <p className="offering_detail"><GoDotFill /><strong>Transformation Impact:</strong> {offering.impact}</p> */}
                                 </div>

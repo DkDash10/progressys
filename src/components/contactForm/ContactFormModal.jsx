@@ -5,10 +5,11 @@ import "./ContactFormModal.css";
 import { HiXMark } from "react-icons/hi2";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import Select from "react-select";
 
 function ContactFormModal() {
   const { isModalOpen, closeModal } = useModal();
-  const [isSelectFocused, setIsSelectFocused] = useState(false);
+  // const [isSelectFocused, setIsSelectFocused] = useState(false);
   const [formStatus, setFormStatus] = useState("idle");
   const modalRef = useRef(null);
   const overlayRef = useRef(null);
@@ -28,14 +29,14 @@ function ContactFormModal() {
     const overlay = overlayRef.current;
     const form = formRef.current;
 
-    const { x, y } = window.modalClickPosition || {
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2,
-    };
+    // const { x, y } = window.modalClickPosition || {
+    //   x: window.innerWidth / 2,
+    //   y: window.innerHeight / 2,
+    // };
 
-    const bounds = modal.getBoundingClientRect();
-    const offsetX = x - (bounds.left + bounds.width / 2);
-    const offsetY = y - (bounds.top + bounds.height / 2);
+    // const bounds = modal.getBoundingClientRect();
+    // const offsetX = x - (bounds.left + bounds.width / 2);
+    // const offsetY = y - (bounds.top + bounds.height / 2);
 
     const tl = gsap.timeline();
 
@@ -44,19 +45,17 @@ function ContactFormModal() {
         modal,
         {
           opacity: 0,
-          scale: 0.5,
-          x: offsetX,
-          y: offsetY,
+          y: 100, // Start lower (bottom)
+          scale: 1,
         },
         {
           opacity: 1,
+          y: 0, // Move up into position
           scale: 1,
-          x: 0,
-          y: 0,
           duration: 0.5,
-          ease: "back.out(1.7)",
+          ease: "power4.out",
         },
-        "<" // start at same time as overlay
+        "<"
       )
       .from(
         modal.querySelector(".modal-header"),
@@ -66,7 +65,7 @@ function ContactFormModal() {
           duration: 0.4,
           ease: "power2.out",
         },
-        "-=0.2" // slightly before modal finishes
+        "-=0.2"
       )
       .from(
         form.querySelectorAll(".form-group, .form-footer"),
@@ -81,14 +80,14 @@ function ContactFormModal() {
       );
   }, [isModalOpen]);
 
-  // Animate modal out before closing
   const closeAnimateModal = () => {
     if (modalRef.current) {
       gsap.to(modalRef.current, {
+        y: 100, // Move modal downward
         opacity: 0,
-        scale: 0.8,
-        duration: 0.3,
-        ease: "power2.inOut",
+        scale: 1,
+        duration: 0.4,
+        ease: "power4.in",
         onComplete: () => {
           closeModal();
         },
@@ -192,6 +191,47 @@ function ContactFormModal() {
 
   if (!isModalOpen) return null;
 
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      boxShadow: "none",
+      background: "white",
+      color: "#555555",
+      fontWeight: "600"
+    }),
+    menu: (provided) => ({
+      ...provided,
+      marginTop: "5px",
+      position: "absolute",
+      width: "100%",
+      zIndex: 9999,
+      background: "white",
+      borderRadius: "12px",
+    }),
+    menuList: (provided) => ({
+      ...provided,
+      padding: 0,
+      borderRadius: "12px",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      padding: "12px",
+      backgroundColor: state.isFocused ? "#8080e6" : "white",
+      color: state.isFocused ? "white" : "#555555",
+      cursor: "pointer",
+      fontWeight: "500",
+      "&:hover": {
+        backgroundColor: "#8080e6",
+        color: "white",
+      },
+    }),
+    container: (provided) => ({
+      ...provided,
+      padding: 0,
+      position: "relative",
+    }),
+  };
+
   return (
     <div
       className="modal-overlay"
@@ -247,42 +287,43 @@ function ContactFormModal() {
                       required
                     />
                   </div>
-
                   <div className="form-group">
                     <label htmlFor="priority" className="form-label">
-                      My Growth Priority Is...*
+                      My Growth Priority Is*
                     </label>
-                    <div className="select-div">
-                      <select
-                        id="priority"
-                        name="priority"
-                        value={formData.priority}
-                        onChange={handleChange}
-                        onFocus={() => setIsSelectFocused(true)}
-                        onBlur={() => setIsSelectFocused(false)}
-                        className={`form-select ${
-                          formData.priority === "" ? "placeholder" : ""
-                        }`}
-                        required
-                      >
-                        <option value="" disabled>
-                          Select a priority
-                        </option>
-                        <option value="Tech">Tech</option>
-                        <option value="Social Impact">Social Impact</option>
-                        <option value="Talent">Talent</option>
-                        <option value="Brand">Brand</option>
-                      </select>
-                      <IoIosArrowDown
-                        className={`form-icon ${
-                          isSelectFocused ? "rotate" : ""
-                        } ${formData.priority !== "" ? "hidden" : ""}`}
-                      />
-                    </div>
+                    <Select
+                      id="priority"
+                      name="priority"
+                      options={[
+                        { value: "Tech", label: "Tech" },
+                        { value: "Social Impact", label: "Social Impact" },
+                        { value: "Talent", label: "Talent" },
+                        { value: "Brand", label: "Brand" },
+                      ]}
+                      styles={customStyles}
+                      value={
+                        formData.priority
+                          ? {
+                              value: formData.priority,
+                              label: formData.priority,
+                            }
+                          : null
+                      }
+                      onChange={(selectedOption) =>
+                        setFormData({
+                          ...formData,
+                          priority: selectedOption.value,
+                        })
+                      }
+                      classNamePrefix="react-select"
+                      placeholder="Select a priority"
+                      required
+                      isSearchable={false}
+                    />
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Company Size*</label>
+                    <label className="form-label company-size">Company Size*</label>
                     <div className="radio-group">
                       {["Startup", "Mid-Market", "Enterprise"].map((size) => (
                         <label key={size} className="radio-label">
